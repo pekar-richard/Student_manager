@@ -18,6 +18,7 @@
 		<java.version>1.8</java.version>	
 		<springframework.version>5.0.2.RELEASE</springframework.version>
 		<springsecurity.version>5.0.0.RELEASE</springsecurity.version>
+		<spring-boot.run.jvmArguments>-Duser.timezone=UTC</spring-boot.run.jvmArguments>
 	</properties>
 
 	<dependencies>
@@ -29,6 +30,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-rest</artifactId>
 	</dependency>
+	
+		<dependency>
+    	<groupId>javax.validation</groupId>
+   		 <artifactId>validation-api</artifactId>
+		</dependency>
 		
 		<!-- Spring MVC Dependency -->
 		<dependency>
@@ -77,7 +83,7 @@
 		<dependency>
 			<groupId>com.mchange</groupId>
 			<artifactId>c3p0</artifactId>
-			<version>0.9.5.2</version>
+			<version>0.9.5.3</version>
 		</dependency>		
 	</dependencies>
 

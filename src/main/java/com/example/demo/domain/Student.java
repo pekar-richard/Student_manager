@@ -1,15 +1,26 @@
 package com.example.demo.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="student")
@@ -20,9 +31,11 @@ public class Student {
 	@Column(name="student_index")
 	private Long student_index;
 
+	@NotBlank(message="Bitte tragen Sie Student_Nachname ein.")
 	@Column(name="student_nachname")
 	private String student_nachname;
 	
+	@NotBlank(message="Bitte tragen Sie Student_Vorname ein.")
 	@Column(name="student_vorname")
 	private String student_vorname;
 	
@@ -41,27 +54,29 @@ public class Student {
 	@Column(name="student_letztermin")
 	private Date student_letztermin;
 	
+	@NotBlank(message="Bitte tragen Sie Student_Preis45 ein.")
 	@Column(name="student_preis45")
 	private double student_preis45;
 	
+	@NotBlank(message="Bitte tragen Sie Student_Preis60 ein.")
 	@Column(name="student_preis60")
 	private double student_preis60;
 	
+	@NotBlank(message="Bitte tragen Sie Student_Preis90 ein.")
 	@Column(name="student_preis90")
 	private double student_preis90;
 	
+	@NotBlank(message="Bitte tragen Sie Student_Preis120 ein.")
 	@Column(name="student_preis120")
 	private double student_preis120;
 	
 	@Column(name="student_abrechnung")
 	private int student_abrechnung;
 	
+	@NotBlank(message="Bitte tragen Sie Student_Kredit ein.")
 	@Column(name="student_kredit")
 	private double student_kredit;
-	
-	@Column(name="student_agentur")
-	private int student_agentur;
-	
+
 	@Column(name="student_aktiv")
 	private int student_aktiv;
 	
@@ -71,6 +86,93 @@ public class Student {
 	@Column(name="student_komm")
 	private String student_komm;
 	
+	@JsonFormat(pattern="yyyy-MM-dd")
+	@Column(name="created_at", updatable= false)
+	private Date created_At;
+	
+	@JsonFormat(pattern="yyyy-MM-dd")
+	@Column(name="updated_at")
+	private Date updated_At;
+	
+	//OneToOne with Agentur
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="student_agentur", nullable = false)
+	@JsonIgnore
+	private Agentur agentur;
+
+	//OneToMany with Lektion
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, mappedBy="student", orphanRemoval = true)
+	@JsonIgnore
+	private List<Lektion> lektions = new ArrayList<>();
+	
+	//OneToMany with Zahlung
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, mappedBy="student", orphanRemoval = true)
+	@JsonIgnore
+	private List<Zahlung> zahlungs = new ArrayList<>();
+	
+	//OneToMany with Rechnung
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, mappedBy="student", orphanRemoval = true)
+	@JsonIgnore
+	private List<Rechnung> rechnungs = new ArrayList<>();
+	
+	public List<Rechnung> getRechnungs() {
+		return rechnungs;
+	}
+
+	public void setRechnungs(List<Rechnung> rechnungs) {
+		this.rechnungs = rechnungs;
+	}
+	
+	public List<Zahlung> getZahlungs() {
+		return zahlungs;
+	}
+
+	public void setZahlungs(List<Zahlung> zahlungs) {
+		this.zahlungs = zahlungs;
+	}
+
+	public List<Lektion> getLektions() {
+		return lektions;
+	}
+
+	public void setLektions(List<Lektion> lektions) {
+		this.lektions = lektions;
+	}
+	
+	@PrePersist
+	protected void onCreate() {
+		this.created_At = new Date();			
+	}
+	
+	@PreUpdate
+	protected void onUpdate() {
+		this.updated_At = new Date();	
+	}
+	
+	public Agentur getAgentur() {
+		return agentur;
+	}
+
+	public void setAgentur(Agentur agentur) {
+		this.agentur = agentur;
+	}
+
+	public Date getCreated_At() {
+		return created_At;
+	}
+
+	public void setCreated_At(Date created_At) {
+		this.created_At = created_At;
+	}
+
+	public Date getUpdated_At() {
+		return updated_At;
+	}
+
+	public void setUpdated_At(Date updated_At) {
+		this.updated_At = updated_At;
+	}
+
 	public Student() {	
 			
 	}
@@ -179,14 +281,6 @@ public class Student {
 		this.student_kredit = student_kredit;
 	}
 
-	public int getStudent_agentur() {
-		return student_agentur;
-	}
-
-	public void setStudent_agentur(int student_agentur) {
-		this.student_agentur = student_agentur;
-	}
-
 	public int getStudent_aktiv() {
 		return student_aktiv;
 	}
@@ -210,6 +304,5 @@ public class Student {
 	public void setStudent_komm(String student_komm) {
 		this.student_komm = student_komm;
 	}
-	
 	
 }

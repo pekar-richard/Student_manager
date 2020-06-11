@@ -4,12 +4,19 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="zahlung")
@@ -20,25 +27,135 @@ public class Zahlung {
 	@Column(name="zahlung_index")
 	private Long zahlung_index;
 	
+	@NotBlank(message="Bitte wählen Sie Zahlung_Datum.")
 	@JsonFormat(pattern="yyyy-MM-dd")
 	@Column(name="zahlung_datum")
 	private Date zahlung_datum;
 	
-	@Column(name="zahlung_student")
-	private int zahlung_student;
-	
+	@NotBlank(message="Bitte tragen Sie Zahlung_Betrag ein.")
 	@Column(name="zahlung_betrag")
 	private double zahlung_betrag;
+	
+	@NotBlank(message="Bitte tragen Sie Zahlung_Konto ein.")
+	@Column(name="zahlung_konto")
+	private String zahlung_konto;
 	
 	@Column(name="zahlung_steuer")
 	private int zahlung_steuer;
 	
+	@NotBlank(message="Bitte tragen Sie Zahlung_Rgnr ein.")
 	@Column(name="zahlung_rgnr")
 	private int zahlung_rgnr;
 	
-	@Column(name="zahlung_komm", unique = true)
+	@Column(name="zahlung_komm")
 	private String zahlung_komm;
 	
+	@JsonFormat(pattern="yyyy-MM-dd")
+	@Column(name="created_at", updatable= false)
+	private Date created_At;
 	
+	@JsonFormat(pattern="yyyy-MM-dd")
+	@Column(name="updated_at")
+	private Date updated_At;
+	
+	//ManytoOne with Student
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="zahlung_student", nullable = false)
+	@JsonIgnore
+	private Student student;
+	
+	public Zahlung() {
+		
+	}
+	
+	@PrePersist
+	protected void onCreate() {
+		this.created_At = new Date();			
+	}
+	
+	@PreUpdate
+	protected void onUpdate() {
+		this.updated_At = new Date();	
+	}
 
+	public Long getZahlung_index() {
+		return zahlung_index;
+	}
+
+	public void setZahlung_index(Long zahlung_index) {
+		this.zahlung_index = zahlung_index;
+	}
+
+	public Date getZahlung_datum() {
+		return zahlung_datum;
+	}
+
+	public void setZahlung_datum(Date zahlung_datum) {
+		this.zahlung_datum = zahlung_datum;
+	}
+
+	public double getZahlung_betrag() {
+		return zahlung_betrag;
+	}
+
+	public void setZahlung_betrag(double zahlung_betrag) {
+		this.zahlung_betrag = zahlung_betrag;
+	}
+
+	public String getZahlung_konto() {
+		return zahlung_konto;
+	}
+
+	public void setZahlung_konto(String zahlung_konto) {
+		this.zahlung_konto = zahlung_konto;
+	}
+
+	public int getZahlung_steuer() {
+		return zahlung_steuer;
+	}
+
+	public void setZahlung_steuer(int zahlung_steuer) {
+		this.zahlung_steuer = zahlung_steuer;
+	}
+
+	public int getZahlung_rgnr() {
+		return zahlung_rgnr;
+	}
+
+	public void setZahlung_rgnr(int zahlung_rgnr) {
+		this.zahlung_rgnr = zahlung_rgnr;
+	}
+
+	public String getZahlung_komm() {
+		return zahlung_komm;
+	}
+
+	public void setZahlung_komm(String zahlung_komm) {
+		this.zahlung_komm = zahlung_komm;
+	}
+
+	public Date getCreated_At() {
+		return created_At;
+	}
+
+	public void setCreated_At(Date created_At) {
+		this.created_At = created_At;
+	}
+
+	public Date getUpdated_At() {
+		return updated_At;
+	}
+
+	public void setUpdated_At(Date updated_At) {
+		this.updated_At = updated_At;
+	}
+
+	public Student getStudent() {
+		return student;
+	}
+
+	public void setStudent(Student student) {
+		this.student = student;
+	}	
+	
 }

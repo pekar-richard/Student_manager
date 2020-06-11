@@ -18,48 +18,62 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 @ComponentScan(basePackages="com.example.demo")
 @PropertySource("classpath:application.properties")
 public class AppConfig {
-	
-	@Autowired
-	private Environment env;
-	
-	private Logger logger = Logger.getLogger(getClass().getName());
-	
-	@Bean
-	public DataSource securityDataSource() {
+	// set up variable to gold the properties
+		@Autowired
+		private Environment env; // will hold data from property file
 		
-		ComboPooledDataSource securityDataSource = new ComboPooledDataSource();
+		// set up a logger for diagnostics
+		private Logger logger = Logger.getLogger(getClass().getName());
 		
-		try {
-			securityDataSource.setDriverClass(env.getProperty("jdbc.driver"));
-		} catch (PropertyVetoException exc) {
+		
+		// define a bean for our security datasource
+		
+		@Bean
+		public DataSource securityDataSource() {
 			
-			throw new RuntimeException(exc);
+			// create connection pool
+			ComboPooledDataSource securityDataSource = new ComboPooledDataSource();
+			
+			// set the jdbc driver class
+			try {
+				securityDataSource.setDriverClass(env.getProperty("jdbc.driver"));
+			} catch (PropertyVetoException exc) {
+				
+				throw new RuntimeException(exc);
+			}
+			
+			// log the connection props
+			// for sanity's sake, log this info
+			// just to make sure we are reading REALLY reading data from properties file
+			logger.info(">>> jdbc.url=" + env.getProperty("jdbc.url"));
+			logger.info(">>> jdbc.user=" + env.getProperty("jdbc.user"));
+			
+			// set database connection props
+			
+			securityDataSource.setJdbcUrl(env.getProperty("jdbc.url"));
+			securityDataSource.setUser(env.getProperty("jdbc.user"));
+			securityDataSource.setPassword(env.getProperty("jdbc.password"));
+			
+			// set connection pool props
+			securityDataSource.setInitialPoolSize(getIntProperty("connection.pool.initialPoolSize")); // It is expecting Integer!!!
+			securityDataSource.setMinPoolSize(getIntProperty("connection.pool.minPoolSize"));
+			securityDataSource.setMaxPoolSize(getIntProperty("connection.pool.maxPoolSize"));
+			securityDataSource.setMaxIdleTime(getIntProperty("connection.pool.maxIdleTime"));
+			
+			return securityDataSource;
 		}
 		
-		logger.info(">>> jdbc.url=" + env.getProperty("jdbc.url"));
-		logger.info(">>> jdbc.user=" + env.getProperty("jdbc.user"));
+		// need a helper method
+		// read environment property and convert tp int
+		private int getIntProperty(String propName) {
+			
+			String propVal = env.getProperty(propName);
+			
+			// now convert to int
+			int intPropVal = Integer.parseInt(propVal);
+			
+			return intPropVal;
+					
+		}
 		
-		
-		securityDataSource.setJdbcUrl(env.getProperty("jdbc.url"));
-		securityDataSource.setUser(env.getProperty("jdbc.user"));
-		securityDataSource.setPassword(env.getProperty("jdbc.password"));
-	
-		securityDataSource.setInitialPoolSize(getIntProperty("connection.pool.initialPoolSize")); // It is expecting Integer!!!
-		securityDataSource.setMinPoolSize(getIntProperty("connection.pool.minPoolSize"));
-		securityDataSource.setMaxPoolSize(getIntProperty("connection.pool.maxPoolSize"));
-		securityDataSource.setMaxIdleTime(getIntProperty("connection.pool.maxIdleTime"));
-		
-		return securityDataSource;
-	}
-	
-
-	private int getIntProperty(String propName) {
-		
-		String propVal = env.getProperty(propName);
-
-		int intPropVal = Integer.parseInt(propVal);
-		
-		return intPropVal;
-				
-	}
 }
