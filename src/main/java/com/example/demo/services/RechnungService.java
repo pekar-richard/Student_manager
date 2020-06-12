@@ -17,4 +17,9 @@ public class RechnungService {
 		return rechnungRepository.findAll();		
 		
 	}
+	
+	/*public Rechnung findByRechnung_Index(int rechnung_index) {
+		
+		return rechnungRepository.findByRechnung_Index(rechnung_index);
+	}*/
 }

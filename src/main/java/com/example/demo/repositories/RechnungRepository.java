@@ -10,4 +10,6 @@ public interface RechnungRepository extends CrudRepository<Rechnung,Long> {
 	
 	@Override
 	Iterable<Rechnung> findAll();
+	
+	//Rechnung findByRechnung_Index(int rechnung_index);
 }

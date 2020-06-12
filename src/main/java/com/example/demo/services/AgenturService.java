@@ -17,4 +17,10 @@ public class AgenturService {
 		return agenturRepository.findAll();		
 		
 	}
+	
+	public Agentur findAgenturByID(long agentur_id) {
+		
+		return agenturRepository.findAgenturByID(agentur_id);
+		
+	}
 }

@@ -30,11 +30,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-rest</artifactId>
 	</dependency>
-	
+	<!-- 
 		<dependency>
-    	<groupId>javax.validation</groupId>
+    	 <groupId>javax.validation</groupId>
    		 <artifactId>validation-api</artifactId>
-		</dependency>
+		</dependency>-->
+		<!-- https://mvnrepository.com/artifact/javax.validation/validation-api -->
 		
 		<!-- Spring MVC Dependency -->
 		<dependency>

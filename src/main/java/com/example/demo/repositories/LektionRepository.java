@@ -10,4 +10,6 @@ public interface LektionRepository extends CrudRepository<Lektion,Long>{
 	
 	@Override
 	Iterable<Lektion> findAll();
+	
+	//Lektion findByLektion_Index(int lektion_index);
 }

@@ -8,14 +8,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.domain.Agentur;
 import com.example.demo.services.AgenturService;
+import com.example.demo.services.MapValidationErrorService;
 
 @RestController
-@RequestMapping("/api/project")
+@RequestMapping("/api/agentur")
 @CrossOrigin //Important to get acces from react app to server
 public class AgenturController {
 	
 	@Autowired
 	private AgenturService agenturService;
+	
+	@Autowired
+	private MapValidationErrorService mapValidationErrorService;
 	
 	@GetMapping("/allagenturs")
 	public Iterable<Agentur> getAllAgenturs(){return agenturService.findAllAgenturs();}

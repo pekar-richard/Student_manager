@@ -17,4 +17,9 @@ public class LektionService {
 		return lektionRepository.findAll();		
 		
 	}
+	
+	/*public Lektion findByLektion_Index(int lektion_index) {
+		
+		return lektionRepository.findByLektion_Index(lektion_index);
+	}*/
 }

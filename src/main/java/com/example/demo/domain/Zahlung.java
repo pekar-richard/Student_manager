@@ -2,6 +2,7 @@ package com.example.demo.domain;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -59,7 +60,8 @@ public class Zahlung {
 	private Date updated_At;
 	
 	//ManytoOne with Student
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY,cascade= {CascadeType.PERSIST, CascadeType.MERGE,
+			 CascadeType.DETACH, CascadeType.REFRESH})
 	@JoinColumn(name="zahlung_student", nullable = false)
 	@JsonIgnore
 	private Student student;

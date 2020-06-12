@@ -2,6 +2,7 @@ package com.example.demo.domain;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -65,13 +66,15 @@ public class Lektion {
 	private Date updated_At;
 	
 	//ManytoOne with Agentur
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.MERGE,
+			 CascadeType.DETACH, CascadeType.REFRESH})
 	@JoinColumn(name="lektion_agentur", nullable = true)
 	@JsonIgnore
 	private Agentur agentur;
 	
 	//ManytoOne with Student
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.MERGE,
+			 CascadeType.DETACH, CascadeType.REFRESH})
 	@JoinColumn(name="lektion_student", nullable = true)
 	@JsonIgnore
 	private Student student;

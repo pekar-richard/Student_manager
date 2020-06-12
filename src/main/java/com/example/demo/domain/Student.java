@@ -12,8 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -95,25 +95,64 @@ public class Student {
 	private Date updated_At;
 	
 	//OneToOne with Agentur
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="student_agentur", nullable = false)
+	@ManyToOne(fetch = FetchType.LAZY,cascade= {CascadeType.PERSIST, CascadeType.MERGE,
+			 CascadeType.DETACH, CascadeType.REFRESH})
+	@JoinColumn(name="student_agentur", nullable = true)
 	@JsonIgnore
 	private Agentur agentur;
 
 	//OneToMany with Lektion
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, mappedBy="student", orphanRemoval = true)
+	@OneToMany(fetch = FetchType.LAZY,  mappedBy="student",  cascade= {CascadeType.PERSIST, CascadeType.MERGE,
+			 CascadeType.DETACH, CascadeType.REFRESH})
 	@JsonIgnore
-	private List<Lektion> lektions = new ArrayList<>();
+	private List<Lektion> lektions;
 	
 	//OneToMany with Zahlung
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, mappedBy="student", orphanRemoval = true)
+	@OneToMany(fetch = FetchType.LAZY,  mappedBy="student",  cascade= {CascadeType.PERSIST, CascadeType.MERGE,
+			 CascadeType.DETACH, CascadeType.REFRESH})
 	@JsonIgnore
-	private List<Zahlung> zahlungs = new ArrayList<>();
+	private List<Zahlung> zahlungs;
 	
 	//OneToMany with Rechnung
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, mappedBy="student", orphanRemoval = true)
+	@OneToMany(fetch = FetchType.LAZY,  mappedBy="student",  cascade= {CascadeType.PERSIST, CascadeType.MERGE,
+			 CascadeType.DETACH, CascadeType.REFRESH})
 	@JsonIgnore
-	private List<Rechnung> rechnungs = new ArrayList<>();
+	private List<Rechnung> rechnungs;
+	
+	
+	public void addLektion(Lektion tempLektion) {
+		
+		if (lektions == null) {
+			lektions = new ArrayList<>();
+		}
+		
+		lektions.add(tempLektion);
+		
+		tempLektion.setStudent(this);
+	}
+	
+	public void addZahlung(Zahlung tempZahlung) {
+		
+		if (zahlungs == null) {
+			zahlungs = new ArrayList<>();
+		}
+		
+		zahlungs.add(tempZahlung);
+		
+		tempZahlung.setStudent(this);
+	}
+	
+	public void addRechnung(Rechnung tempRechnung) {
+		
+		if (rechnungs == null) {
+			rechnungs = new ArrayList<>();
+		}
+		
+		rechnungs.add(tempRechnung);
+		
+		tempRechnung.setStudent(this);
+	}
+	
 	
 	public List<Rechnung> getRechnungs() {
 		return rechnungs;

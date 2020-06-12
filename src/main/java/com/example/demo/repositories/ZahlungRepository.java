@@ -10,4 +10,6 @@ public interface ZahlungRepository extends CrudRepository<Zahlung,Long>{
 	
 	@Override
 	Iterable<Zahlung> findAll();
+	
+	//Zahlung findByZahlung_Index(int zahlung_index);
 }

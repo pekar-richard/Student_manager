@@ -45,19 +45,73 @@ public class Agentur {
 	@Column(name="updated_at")
 	private Date updated_At;
 	
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, mappedBy="agentur", orphanRemoval = true)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy="agentur",  cascade= {CascadeType.PERSIST, CascadeType.MERGE,
+			 CascadeType.DETACH, CascadeType.REFRESH})
 	@JsonIgnore
-	private Student student;
+	private List<Student> students;
 	
 	//OneToMany with Lektion
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, mappedBy="agentur", orphanRemoval = true)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy="agentur",  cascade= {CascadeType.PERSIST, CascadeType.MERGE,
+			 CascadeType.DETACH, CascadeType.REFRESH})
 	@JsonIgnore
-	private List<Lektion> agenturs = new ArrayList<>();
+	private List<Lektion> lektions;
 	
 	//OneToMany with Rechnung
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, mappedBy="agentur", orphanRemoval = true)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy="agentur",  cascade= {CascadeType.PERSIST, CascadeType.MERGE,
+			 CascadeType.DETACH, CascadeType.REFRESH})
 	@JsonIgnore
-	private List<Rechnung> rechnungs = new ArrayList<>();
+	private List<Rechnung> rechnungs;
+	
+	public void addRechnung(Rechnung tempRechnung) {
+		
+		if (rechnungs == null) {
+			rechnungs = new ArrayList<>();
+		}
+		
+		rechnungs.add(tempRechnung);
+		
+		tempRechnung.setAgentur(this);
+	}
+
+	public void addLektion(Lektion tempLektion) {
+		
+		if (lektions == null) {
+			lektions = new ArrayList<>();
+		}
+		
+		lektions.add(tempLektion);
+		
+		tempLektion.setAgentur(this);
+	}
+	
+	public void addStudent(Student tempStudent) {
+		
+		if (students == null) {
+			students = new ArrayList<>();
+		}
+		
+		students.add(tempStudent);
+		
+		tempStudent.setAgentur(this);
+	}
+	
+	public List<Student> getStudents() {
+		return students;
+	}
+
+
+	public void setStudents(List<Student> students) {
+		this.students = students;
+	}
+
+
+	public List<Lektion> getLektions() {
+		return lektions;
+	}
+
+	public void setLektions(List<Lektion> lektions) {
+		this.lektions = lektions;
+	}
 	
 	public List<Rechnung> getRechnungs() {
 		return rechnungs;
@@ -94,21 +148,6 @@ public class Agentur {
 		this.updated_At = updated_At;
 	}
 
-	public Student getStudent() {
-		return student;
-	}
-
-	public void setStudent(Student student) {
-		this.student = student;
-	}
-
-	public List<Lektion> getAgenturs() {
-		return agenturs;
-	}
-
-	public void setAgenturs(List<Lektion> agenturs) {
-		this.agenturs = agenturs;
-	}
 
 	public Agentur() {
 		
