@@ -89,6 +89,16 @@ public class Rechnung {
 		
 	}
 	
+	public void removeAgentur() {	
+		
+		this.agentur=null;
+	}
+	
+	public void removeStudent() {	
+		
+		this.student=null;
+	}
+	
 	@PrePersist
 	protected void onCreate() {
 		this.created_At = new Date();			

@@ -16,5 +16,5 @@ public interface AgenturRepository extends CrudRepository<Agentur,Long>{
 	
 	@Query("from Agentur where agentur_index=:Agentur_index")  
 	public Agentur findAgenturByID(@Param("Agentur_index") long u);
-
+	
 }

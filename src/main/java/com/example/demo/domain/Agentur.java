@@ -45,20 +45,18 @@ public class Agentur {
 	@Column(name="updated_at")
 	private Date updated_At;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy="agentur",  cascade= {CascadeType.PERSIST, CascadeType.MERGE,
-			 CascadeType.DETACH, CascadeType.REFRESH})
+	//OneToMany with Student
+	@OneToMany(fetch = FetchType.LAZY, mappedBy="agentur",  cascade= {CascadeType.PERSIST, CascadeType.MERGE,CascadeType.DETACH, CascadeType.REFRESH})
 	@JsonIgnore
 	private List<Student> students;
 	
 	//OneToMany with Lektion
-	@OneToMany(fetch = FetchType.LAZY, mappedBy="agentur",  cascade= {CascadeType.PERSIST, CascadeType.MERGE,
-			 CascadeType.DETACH, CascadeType.REFRESH})
+	@OneToMany(fetch = FetchType.LAZY, mappedBy="agentur",  cascade= {CascadeType.PERSIST, CascadeType.MERGE,CascadeType.DETACH, CascadeType.REFRESH})
 	@JsonIgnore
 	private List<Lektion> lektions;
 	
 	//OneToMany with Rechnung
-	@OneToMany(fetch = FetchType.LAZY, mappedBy="agentur",  cascade= {CascadeType.PERSIST, CascadeType.MERGE,
-			 CascadeType.DETACH, CascadeType.REFRESH})
+	@OneToMany(fetch = FetchType.LAZY, mappedBy="agentur",  cascade= {CascadeType.PERSIST, CascadeType.MERGE,CascadeType.DETACH, CascadeType.REFRESH})
 	@JsonIgnore
 	private List<Rechnung> rechnungs;
 	
@@ -94,6 +92,7 @@ public class Agentur {
 		
 		tempStudent.setAgentur(this);
 	}
+	
 	
 	public List<Student> getStudents() {
 		return students;

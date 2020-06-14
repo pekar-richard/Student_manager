@@ -27,5 +27,29 @@ public class CustomReponseEntityExceptionHandler extends ResponseEntityException
 		
 		return new ResponseEntity(exceptionResponse, HttpStatus.BAD_REQUEST);
 	}
+	
+	@ExceptionHandler
+	public final ResponseEntity<Object> handleLektionException(LektionNotFoundException ex, WebRequest request ){
+		
+		LektionNotFoundExceptionResponse exceptionResponse = new LektionNotFoundExceptionResponse(ex.getMessage());
+		
+		return new ResponseEntity(exceptionResponse, HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler
+	public final ResponseEntity<Object> handleRechnungException(RechnungNotFoundException ex, WebRequest request ){
+		
+		RechnungNotFoundExceptionResponse exceptionResponse = new RechnungNotFoundExceptionResponse(ex.getMessage());
+		
+		return new ResponseEntity(exceptionResponse, HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler
+	public final ResponseEntity<Object> handleZahlungException(ZahlungNotFoundException ex, WebRequest request ){
+		
+		ZahlungNotFoundExceptionResponse exceptionResponse = new ZahlungNotFoundExceptionResponse(ex.getMessage());
+		
+		return new ResponseEntity(exceptionResponse, HttpStatus.BAD_REQUEST);
+	}
 
 }

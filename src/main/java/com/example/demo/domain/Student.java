@@ -103,22 +103,27 @@ public class Student {
 
 	//OneToMany with Lektion
 	@OneToMany(fetch = FetchType.LAZY,  mappedBy="student",  cascade= {CascadeType.PERSIST, CascadeType.MERGE,
-			 CascadeType.DETACH, CascadeType.REFRESH})
+			 CascadeType.DETACH, CascadeType.REFRESH,CascadeType.REMOVE})
 	@JsonIgnore
 	private List<Lektion> lektions;
 	
 	//OneToMany with Zahlung
 	@OneToMany(fetch = FetchType.LAZY,  mappedBy="student",  cascade= {CascadeType.PERSIST, CascadeType.MERGE,
-			 CascadeType.DETACH, CascadeType.REFRESH})
+			 CascadeType.DETACH, CascadeType.REFRESH,CascadeType.REMOVE})
 	@JsonIgnore
 	private List<Zahlung> zahlungs;
 	
 	//OneToMany with Rechnung
 	@OneToMany(fetch = FetchType.LAZY,  mappedBy="student",  cascade= {CascadeType.PERSIST, CascadeType.MERGE,
-			 CascadeType.DETACH, CascadeType.REFRESH})
+			 CascadeType.DETACH, CascadeType.REFRESH,CascadeType.REMOVE})
 	@JsonIgnore
 	private List<Rechnung> rechnungs;
 	
+	
+	public void removeAgentur() {	
+		
+		this.agentur=null;
+	}
 	
 	public void addLektion(Lektion tempLektion) {
 		

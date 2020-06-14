@@ -66,6 +66,11 @@ public class Zahlung {
 	@JsonIgnore
 	private Student student;
 	
+	public void removeStudent() {	
+		
+		this.student=null;
+	}
+	
 	public Zahlung() {
 		
 	}

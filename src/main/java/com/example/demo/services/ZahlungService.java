@@ -18,10 +18,5 @@ public class ZahlungService {
 		
 	}
 	
-	/*
-	public Zahlung findByZahlung_Index(int zahlung_index) {
-		
-		return zahlungRepository.findByZahlung_Index(zahlung_index);
-		
-	}*/
+
 }
