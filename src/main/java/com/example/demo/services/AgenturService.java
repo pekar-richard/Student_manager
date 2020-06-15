@@ -52,8 +52,7 @@ public class AgenturService {
 					throw new AgenturNotFoundException("Die Agentur ID: '"+ agentur.getAgentur_index() + "'is nicht vorhanden.");
 				}
 		
-			theAgentur=agentur;
-			return	agenturRepository.save(theAgentur);
+			return	agenturRepository.save(agentur);
 			
 		}	
 			

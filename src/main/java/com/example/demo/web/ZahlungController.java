@@ -1,8 +1,17 @@
 package com.example.demo.web;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,4 +33,31 @@ public class ZahlungController {
 	@GetMapping("/allzahlungs")
 	public Iterable<Zahlung> getAllZahlungs(){return zahlungService.findAllZahlungs();}
 
+	@GetMapping("/{zahlung_id}")
+	public ResponseEntity<?> findZahlungByID(@PathVariable long zahlung_id){			
+
+	Zahlung theZahlung = zahlungService.findZahlungByID(zahlung_id);
+		
+	return new ResponseEntity<Zahlung>(theZahlung, HttpStatus.OK);
+	}
+	
+	@PutMapping("/{student_id}")
+	public ResponseEntity<?> createNewZahlung(@Valid @RequestBody Zahlung zahlung, BindingResult result, @PathVariable long student_id ){			
+
+	ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
+	if(errorMap!=null) return errorMap;
+	
+	Zahlung theZahlung= zahlungService.saveOrUpdateZahlung(zahlung, student_id);
+		
+	return new ResponseEntity<Zahlung>(theZahlung, HttpStatus.CREATED);	
+	}
+	
+	@DeleteMapping("/{zahlung_id}")	
+	public ResponseEntity<?> deleteZahlung(@PathVariable long zahlung_id ){
+		
+		zahlungService.deleteZahlungById(zahlung_id);
+		
+		return new ResponseEntity<String>("Die Zahlung mit ID:'" + zahlung_id + "' war geloescht", HttpStatus.OK);
+		
+	}
 }

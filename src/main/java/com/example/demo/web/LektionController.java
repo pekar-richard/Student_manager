@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -49,6 +50,14 @@ public class LektionController {
 	Lektion theLektion= lektionService.saveOrUpdateLektion(lektion, student_id, agentur_id);
 		
 	return new ResponseEntity<Lektion>(theLektion, HttpStatus.CREATED);	
+	}
+	
+	@DeleteMapping("/{lektion_id}")	
+	public ResponseEntity<?> deleteLektion(@PathVariable long lektion_id ){
+		
+	lektionService.deleteLektionById(lektion_id);
+		
+	return new ResponseEntity<String>("Die Lektion mit ID:'" + lektion_id + "' war geloescht", HttpStatus.OK);
 	}
 	
 }

@@ -1,7 +1,5 @@
 package com.example.demo.services;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -72,10 +70,9 @@ public class StudentService {
 					throw new StudentNotFoundException("Der Student ID: '"+ student.getStudent_index() + "'is nicht vorhanden.");
 			}
 			
-				theStudent=student;
 				Agentur theagentur = agenturRepository.findAgenturByID(agentur_id);
-				theagentur.addStudent(theStudent);
-				return studentRepository.save(theStudent);	
+				theagentur.addStudent(student);
+				return studentRepository.save(student);	
 		}	
 		
 				

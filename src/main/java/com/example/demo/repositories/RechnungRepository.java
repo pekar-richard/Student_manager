@@ -13,6 +13,6 @@ public interface RechnungRepository extends CrudRepository<Rechnung,Long> {
 	@Override
 	Iterable<Rechnung> findAll();
 	
-	@Query("from Rechnung where rechnung_index=:Rechnung_index")  
+	@Query("from Rechnung where rechn_index=:Rechnung_index")  
 	public Rechnung findRechnungByID(@Param("Rechnung_index") long u);
 }

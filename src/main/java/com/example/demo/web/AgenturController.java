@@ -33,6 +33,14 @@ public class AgenturController {
 	
 	@GetMapping("/allagenturs")
 	public Iterable<Agentur> getAllAgenturs(){return agenturService.findAllAgenturs();}
+	
+	@GetMapping("/{agentur_id}")
+	public ResponseEntity<?> findAgenturByID(@PathVariable long agentur_id){			
+
+	Agentur theagentur= agenturService.findAgenturByID(agentur_id);
+		
+	return new ResponseEntity<Agentur>(theagentur, HttpStatus.OK);	
+	}
 
 	@PutMapping("")
 	public ResponseEntity<?> createNewAgentur(@Valid @RequestBody Agentur agentur, BindingResult result){	
@@ -44,15 +52,6 @@ public class AgenturController {
 		
 	return new ResponseEntity<Agentur>(theagentur, HttpStatus.CREATED);	
 	}
-	
-	@GetMapping("/{agentur_id}")
-	public ResponseEntity<?> findAgenturByID(@PathVariable long agentur_id){			
-
-	Agentur theagentur= agenturService.findAgenturByID(agentur_id);
-		
-	return new ResponseEntity<Agentur>(theagentur, HttpStatus.OK);	
-	}
-	
 	
 	@DeleteMapping("/{agentur_id}")	
 	public ResponseEntity<?> deleteAgentur(@PathVariable long agentur_id ){

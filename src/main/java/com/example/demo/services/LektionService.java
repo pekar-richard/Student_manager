@@ -43,18 +43,27 @@ public class LektionService {
 	public Lektion saveOrUpdateLektion(Lektion lektion, long student_id, long agentur_id) {
 	try {	
 		
+		
+		Agentur theAgentur = agenturRepository.findAgenturByID(agentur_id);
+		Student theStudent1 = studentRepository.findStudentByID(student_id);
+		
+		if(theAgentur == null && theStudent1 == null) {
+			
+			throw new LektionNotFoundException("Der Student ID: '"+ student_id + "' oder Die Agentur ID: '" + agentur_id + "' is nicht vorhanden.");
+		}
+		
 		if(lektion.getLektion_index() == null) {
 		 
-			Agentur theAgentur = agenturRepository.findAgenturByID(agentur_id);
+			
 			if( theAgentur!= null) {
 				
 				theAgentur.addLektion(lektion);
 			}
 	
-			Student theStudent = studentRepository.findStudentByID(student_id);
-			if( theStudent!= null) {
+			
+			if( theStudent1!= null) {
 				
-				theStudent.addLektion(lektion);
+				theStudent1.addLektion(lektion);
 			}
 			
 			return lektionRepository.save(lektion);
@@ -65,16 +74,14 @@ public class LektionService {
 					throw new LektionNotFoundException("Die Lektion ID: '"+ lektion.getLektion_index() + "'ist nicht vorhanden.");
 			}
 			
-				theLektion=lektion;
 				Agentur theagentur = agenturRepository.findAgenturByID(agentur_id);
-				theagentur.addLektion(theLektion);
+				theagentur.addLektion(lektion);
 				Student theStudent = studentRepository.findStudentByID(student_id);
-				theStudent.addLektion(theLektion);
+				theStudent.addLektion(lektion);
 			
-			return lektionRepository.save(theLektion);
+			return lektionRepository.save(lektion);
 				
 		}	
-
 				
 		}catch (LektionNotFoundException e){			
 			throw e;
@@ -83,6 +90,22 @@ public class LektionService {
 		}
 
 	}
+	
+	public void deleteLektionById(long lektion_id) {
+	
+	
+	Lektion theLektion = lektionRepository.findLektionByID(lektion_id);
+	
+	if(theLektion == null) {
+		
+		throw new LektionNotFoundException("Die Lektion ID: '"+ lektion_id + "'ist nicht vorhanden.");
+	}
+
+	theLektion.removeAgentur();
+	theLektion.removeStudent(); 
+	lektionRepository.delete(theLektion);
+
+}
 	
 
 }

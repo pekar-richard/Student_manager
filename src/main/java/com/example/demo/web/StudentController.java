@@ -35,6 +35,14 @@ public class StudentController {
 	@GetMapping("/allstudents")
 	public Iterable<Student> getAllStudents(){return studentService.findAllStudents();}
 	
+	@GetMapping("/{student_id}")
+	public ResponseEntity<?> findStudentByID(@PathVariable long student_id){			
+
+	Student thestudent= studentService.findStudentByID(student_id);
+		
+	return new ResponseEntity<Student>(thestudent, HttpStatus.OK);	
+	}
+	
 	@PutMapping("/{agentur_id}")
 	public ResponseEntity<?> createNewStudent(@Valid @RequestBody Student student, BindingResult result, @PathVariable long agentur_id ){			
 
@@ -45,15 +53,6 @@ public class StudentController {
 		
 	return new ResponseEntity<Student>(thestudent, HttpStatus.CREATED);	
 	}
-	
-	@GetMapping("/{student_id}")
-	public ResponseEntity<?> findStudentByID(@PathVariable long student_id){			
-
-	Student thestudent= studentService.findStudentByID(student_id);
-		
-	return new ResponseEntity<Student>(thestudent, HttpStatus.OK);	
-	}
-	
 	
 	@DeleteMapping("/{student_id}")	
 	public ResponseEntity<?> deleteStudent(@PathVariable long student_id ){
