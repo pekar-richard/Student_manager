@@ -17,7 +17,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -46,35 +48,40 @@ public class Student {
 	@Column(name="student_gebdat")
 	private Date student_gebdat;
 	
-	@JsonFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern="yyyy-MM-dd@HH:mm:ss.SSSZ")
 	@Column(name="student_ersttermin")
 	private Date student_ersttermin;
 	
-	@JsonFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern="yyyy-MM-dd@HH:mm:ss.SSSZ")
 	@Column(name="student_letztermin")
 	private Date student_letztermin;
 	
-	@NotBlank(message="Bitte tragen Sie Student_Preis45 ein.")
+	@NotNull(message="Bitte tragen Sie Student_Preis45 ein.")
+	@Digits(integer=3, fraction=2)
 	@Column(name="student_preis45")
 	private double student_preis45;
 	
-	@NotBlank(message="Bitte tragen Sie Student_Preis60 ein.")
+	@NotNull(message="Bitte tragen Sie Student_Preis60 ein.")
 	@Column(name="student_preis60")
+	@Digits(integer=3, fraction=2)
 	private double student_preis60;
 	
-	@NotBlank(message="Bitte tragen Sie Student_Preis90 ein.")
+	@NotNull(message="Bitte tragen Sie Student_Preis90 ein.")
 	@Column(name="student_preis90")
+	@Digits(integer=3, fraction=2)
 	private double student_preis90;
 	
-	@NotBlank(message="Bitte tragen Sie Student_Preis120 ein.")
+	@NotNull(message="Bitte tragen Sie Student_Preis120 ein.")
 	@Column(name="student_preis120")
+	@Digits(integer=3, fraction=2)
 	private double student_preis120;
 	
 	@Column(name="student_abrechnung")
 	private int student_abrechnung;
 	
-	@NotBlank(message="Bitte tragen Sie Student_Kredit ein.")
+	@NotNull(message="Bitte tragen Sie Student_Kredit ein.")
 	@Column(name="student_kredit")
+	@Digits(integer=3, fraction=2)
 	private double student_kredit;
 
 	@Column(name="student_aktiv")

@@ -15,6 +15,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -55,11 +56,11 @@ public class Rechnung {
 	@Column(name="rechn_land")
 	private String rechn_land;
 	
-	@NotBlank(message="Bitte tragen Sie Rechn_ICO ein.")
+	@NotNull(message="Bitte tragen Sie Rechn_ICO ein.")
 	@Column(name="rechn_ico")
 	private int rechn_ico;
 	
-	@NotBlank(message="Bitte tragen Sie Rechn_DIC ein.")
+	@NotNull(message="Bitte tragen Sie Rechn_DIC ein.")
 	@Column(name="rechn_dic")
 	private int rechn_dic;
 

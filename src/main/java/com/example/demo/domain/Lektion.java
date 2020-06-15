@@ -15,6 +15,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -28,16 +29,16 @@ public class Lektion {
 	@Column(name="lektion_index")
 	private Long lektion_index;
 	
-	@NotBlank(message="Bitte wählen Sie Lektion_Datum.")
+	@NotNull(message="Bitte wählen Sie Lektion_Datum.")
 	@JsonFormat(pattern="yyyy-MM-dd@HH:mm:ss.SSSZ")
 	@Column(name="lektion_datum")
 	private Date lektion_datum;
 	
-	@NotBlank(message="Bitte wählen Sie Lektion_Min.")
+	@NotNull(message="Bitte wählen Sie Lektion_Min.")
 	@Column(name="lektion_min")
 	private int lektion_min;
 	
-	@NotBlank(message="Bitte tragen Sie Lektion_Preis ein.")
+	@NotNull(message="Bitte tragen Sie Lektion_Preis ein.")
 	@Column(name="lektion_preis")
 	private double lektion_preis;
 	

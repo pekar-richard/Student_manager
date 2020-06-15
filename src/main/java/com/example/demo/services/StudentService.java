@@ -1,12 +1,16 @@
 package com.example.demo.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.domain.Agentur;
+import com.example.demo.domain.Lektion;
 import com.example.demo.domain.Student;
 import com.example.demo.exceptions.StudentNotFoundException;
 import com.example.demo.repositories.AgenturRepository;
+import com.example.demo.repositories.LektionRepository;
 import com.example.demo.repositories.StudentRepository;
 
 @Service
@@ -17,6 +21,9 @@ public class StudentService {
 	
 	@Autowired
 	private AgenturRepository agenturRepository;
+	
+	@Autowired
+	private LektionRepository lektionRepository;
 	
 	
 	public Iterable<Student> findAllStudents(){
@@ -51,6 +58,7 @@ public class StudentService {
 	
 	
 	public Student saveOrUpdateStudent(Student student, long agentur_id) {
+		
 	try {	
 		
 		if(student.getStudent_index() == null) {
@@ -60,10 +68,10 @@ public class StudentService {
 				
 				theagentur.addStudent(student);
 			}
-			
+			student.setStudent_sortierung(student.getStudent_nachname()+", "+student.getStudent_vorname());
 			return studentRepository.save(student);
 			
-		}else {
+		}else { 
 			
 				Student theStudent = findStudentByID(student.getStudent_index());
 				if(theStudent == null) {	
@@ -72,9 +80,9 @@ public class StudentService {
 			
 				Agentur theagentur = agenturRepository.findAgenturByID(agentur_id);
 				theagentur.addStudent(student);
+				student.setStudent_sortierung(student.getStudent_nachname()+", "+student.getStudent_vorname());
 				return studentRepository.save(student);	
 		}	
-		
 				
 		}catch (StudentNotFoundException e){			
 			throw e;

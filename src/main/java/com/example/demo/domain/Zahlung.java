@@ -15,6 +15,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -28,12 +29,12 @@ public class Zahlung {
 	@Column(name="zahlung_index")
 	private Long zahlung_index;
 	
-	@NotBlank(message="Bitte wählen Sie Zahlung_Datum.")
+	@NotNull(message="Bitte wählen Sie Zahlung_Datum.")
 	@JsonFormat(pattern="yyyy-MM-dd")
 	@Column(name="zahlung_datum")
 	private Date zahlung_datum;
 	
-	@NotBlank(message="Bitte tragen Sie Zahlung_Betrag ein.")
+	@NotNull(message="Bitte tragen Sie Zahlung_Betrag ein.")
 	@Column(name="zahlung_betrag")
 	private double zahlung_betrag;
 	
@@ -44,7 +45,7 @@ public class Zahlung {
 	@Column(name="zahlung_steuer")
 	private int zahlung_steuer;
 	
-	@NotBlank(message="Bitte tragen Sie Zahlung_Rgnr ein.")
+	@NotNull(message="Bitte tragen Sie Zahlung_Rgnr ein.")
 	@Column(name="zahlung_rgnr")
 	private int zahlung_rgnr;
 	
