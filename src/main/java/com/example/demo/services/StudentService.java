@@ -1,16 +1,12 @@
 package com.example.demo.services;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.domain.Agentur;
-import com.example.demo.domain.Lektion;
 import com.example.demo.domain.Student;
 import com.example.demo.exceptions.StudentNotFoundException;
 import com.example.demo.repositories.AgenturRepository;
-import com.example.demo.repositories.LektionRepository;
 import com.example.demo.repositories.StudentRepository;
 
 @Service
@@ -22,8 +18,6 @@ public class StudentService {
 	@Autowired
 	private AgenturRepository agenturRepository;
 	
-	@Autowired
-	private LektionRepository lektionRepository;
 	
 	
 	public Iterable<Student> findAllStudents(){

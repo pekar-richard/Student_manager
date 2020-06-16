@@ -1,8 +1,7 @@
 package com.example.demo.services;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +13,7 @@ import com.example.demo.exceptions.LektionNotFoundException;
 import com.example.demo.repositories.AgenturRepository;
 import com.example.demo.repositories.LektionRepository;
 import com.example.demo.repositories.StudentRepository;
-import com.fasterxml.jackson.annotation.JsonFormat;
+
 
 @Service
 public class LektionService {
@@ -27,6 +26,8 @@ public class LektionService {
 	
 	@Autowired
 	private StudentRepository studentRepository;
+	
+	Date lastDate;
 	
 	
 	public Iterable<Lektion> findAllLektions(){
@@ -48,7 +49,6 @@ public class LektionService {
 	
 	public Lektion saveOrUpdateLektion(Lektion lektion, long student_id, long agentur_id) {
 	try {	
-		
 		
 		Agentur theAgentur = agenturRepository.findAgenturByID(agentur_id);
 		Student theStudent1 = studentRepository.findStudentByID(student_id);
@@ -88,43 +88,38 @@ public class LektionService {
 				Agentur theagentur = agenturRepository.findAgenturByID(agentur_id);
 				theagentur.addLektion(lektion);
 				Student theStudent = studentRepository.findStudentByID(student_id);
-			
-  
-				DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");  
-			
-				String strDate1 = dateFormat.format(theStudent.getStudent_letztermin()); 
+				theStudent.addLektion(lektion);			
+				Lektion theLektionSave = lektionRepository.save(lektion);
 				
-				String strDate2 = dateFormat.format(lektion.getLektion_datum());
-
-				System.out.println("date1:"+strDate1);
-				System.out.println("date2:"+strDate2);
-				try {
+				List<Lektion> theLektionStudents = lektionRepository.findLektionByStudentID(student_id);
+				lastDate = theLektionStudents.get(0).getLektion_datum();
 				
-					Date date1 = dateFormat.parse(strDate1);		   
-				    Date date2 = dateFormat.parse(strDate2); // TODO: Refactor to make last datum
+				if(lastDate!=null) {
 					
-				    if(date1.before(date2)) {
-				    	theStudent.setStudent_letztermin(lektion.getLektion_datum());
-				    }
-
-				} catch(Exception e) {
-									
-					throw new LektionNotFoundException("LektionNotFoundException: Schlechte DateFormat!");
-				}
+					theLektionStudents.forEach((n) ->  {	
+						
+						Date date1 = n.getLektion_datum();
+						if(!date1.before(lastDate))
+						
+						{lastDate=date1;}
 				
-				theStudent.addLektion(lektion);
-			
-			return lektionRepository.save(lektion);
+		                });
+					
+					theStudent.setStudent_letztermin(lastDate);
+					studentRepository.save(theStudent);
+	
+				}
+		
+			return theLektionSave;
 				
 		}	
 				
 		}catch (LektionNotFoundException e){			
 			throw e;
-		}catch (Exception e){	
+		}catch (Exception err){	
 		
 			throw new LektionNotFoundException("Der Student ID: '"+ student_id + "' oder Die Agentur ID: '" + agentur_id + "' is nicht vorhanden.");
 		}
-
 	}
 	
 	public void deleteLektionById(long lektion_id) {
@@ -140,7 +135,6 @@ public class LektionService {
 	theLektion.removeAgentur();
 	theLektion.removeStudent(); 
 	lektionRepository.delete(theLektion);
-
 }
 	
 	public Iterable<Lektion> findLektionByStudentID(long student_id){

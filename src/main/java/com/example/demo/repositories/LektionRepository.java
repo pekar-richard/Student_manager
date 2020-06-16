@@ -1,6 +1,8 @@
 package com.example.demo.repositories;
 
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -18,5 +20,5 @@ public interface LektionRepository extends CrudRepository<Lektion,Long>{
 	public Lektion findLektionByID(@Param("Lektion_index") long u);
 	
 	@Query("from Lektion where lektion_student=:Student_index")
-	public Iterable<Lektion> findLektionByStudentID(@Param("Student_index") long u);
+	public List<Lektion> findLektionByStudentID(@Param("Student_index") long u);
 }

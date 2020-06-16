@@ -44,7 +44,8 @@ public class ZahlungService {
 		Student theStudent = studentRepository.findStudentByID(student_id);
 		if( theStudent!= null) {
 			
-			theStudent.addZahlung(zahlung);;
+			theStudent.addZahlung(zahlung);
+			theStudent.setStudent_kredit(theStudent.getStudent_kredit()+zahlung.getZahlung_betrag());
 		}else {
 			
 			throw new StudentNotFoundException("Der Student ID: '"+ student_id + "'is nicht vorhanden.");
@@ -61,8 +62,24 @@ public class ZahlungService {
 				if(theZahlung == null) {	
 					throw new ZahlungNotFoundException("Die Zahlung ID:'"+ zahlung.getZahlung_index() + "'ist nicht vorhanden.");
 				}
-				System.out.println(zahlung.getZahlung_index());
-				System.out.println(student_id);
+
+				if(theZahlung.getZahlung_betrag() != theZahlung.getStudent().getStudent_kredit()){
+					
+					double theZahlungBetrag = theZahlung.getZahlung_betrag();
+					double theStudentKredit = theZahlung.getStudent().getStudent_kredit();
+					
+					if(theZahlungBetrag<0) {
+						theZahlung.getStudent().setStudent_kredit(theStudentKredit+theZahlungBetrag);
+					}
+					
+					if(theZahlungBetrag>0) {
+						theZahlung.getStudent().setStudent_kredit(theStudentKredit-theZahlungBetrag);			
+					}
+					
+					theZahlung.getStudent().setStudent_kredit(theStudentKredit-theZahlungBetrag);
+					
+				}
+				
 			return	zahlungRepository.save(zahlung);
 			
 		}	
@@ -80,11 +97,15 @@ public class ZahlungService {
 		
 		Zahlung theZahlung = zahlungRepository.findZahlungByID(zahlung_id);
 	
+	
 	if(theZahlung == null) {
 		
 		throw new ZahlungNotFoundException("Die Zahlung ID:'"+ zahlung_id + "'ist nicht vorhanden.");
 	}
-
+	
+	double theZahlungBetrag = theZahlung.getZahlung_betrag();
+	theZahlung.getStudent().setStudent_kredit(theZahlung.getStudent().getStudent_kredit()-theZahlungBetrag);
+	
 	theZahlung.removeStudent();
 	zahlungRepository.delete(theZahlung);
 

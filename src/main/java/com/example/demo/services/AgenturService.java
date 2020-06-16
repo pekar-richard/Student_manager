@@ -11,9 +11,6 @@ import com.example.demo.domain.Rechnung;
 import com.example.demo.domain.Student;
 import com.example.demo.exceptions.AgenturNotFoundException;
 import com.example.demo.repositories.AgenturRepository;
-import com.example.demo.repositories.LektionRepository;
-import com.example.demo.repositories.RechnungRepository;
-import com.example.demo.repositories.StudentRepository;
 
 @Service
 public class AgenturService {
