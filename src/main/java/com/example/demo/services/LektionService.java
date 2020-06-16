@@ -28,6 +28,7 @@ public class LektionService {
 	private StudentRepository studentRepository;
 	
 	Date lastDate;
+	private double theStudentPreis = 0;
 	
 	
 	public Iterable<Lektion> findAllLektions(){
@@ -75,8 +76,46 @@ public class LektionService {
 				theStudent1.setStudent_letztermin(lektion.getLektion_datum());
 				
 				theStudent1.addLektion(lektion);	
+				
+				
+				lektion.setLektion_abrechnung(lektion.getLektion_abrechnung());
+				
+				switch(lektion.getLektion_min()) {
+				  case 45:
+					  lektion.setLektion_preis(theStudent1.getStudent_preis45());
+				    break;
+				  case 60:
+					  lektion.setLektion_preis(theStudent1.getStudent_preis60());
+				    break;
+				  case 90:
+					  lektion.setLektion_preis(theStudent1.getStudent_preis90());
+					    break;
+				  case 120:
+					  lektion.setLektion_preis(theStudent1.getStudent_preis120());
+					    break;
+				  default:
+					  throw new LektionNotFoundException("Die Lektion_min ist nicht vorhanden.");
+				}
+				
+			
+				double theStudentKredit = lektion.getStudent().getStudent_kredit();
+				double theLektionPreis = lektion.getLektion_preis();			
+				
+				switch(lektion.getLektion_abrechnung()) {
+				  case 0:
+				    break;
+				  case 1:
+					  theStudent1.setStudent_kredit(theStudentKredit-theLektionPreis);
+				    break;
+				  case 2:  
+					    break;
+				  default:
+					  throw new LektionNotFoundException("Die Lektion_abrechnung ist nicht vorhanden.");
+				}
+
 			}
 			
+	
 			return lektionRepository.save(lektion);
 			
 		}else {
@@ -88,7 +127,49 @@ public class LektionService {
 				Agentur theagentur = agenturRepository.findAgenturByID(agentur_id);
 				theagentur.addLektion(lektion);
 				Student theStudent = studentRepository.findStudentByID(student_id);
-				theStudent.addLektion(lektion);			
+				theStudent.addLektion(lektion);	
+							
+			lektion.setLektion_abrechnung(lektion.getLektion_abrechnung());
+				
+				switch(lektion.getLektion_min()) {
+				  case 45:
+					  lektion.setLektion_preis(theStudent.getStudent_preis45());
+					theStudentPreis = theStudent.getStudent_preis45();
+				    break;
+				  case 60:
+					  lektion.setLektion_preis(theStudent.getStudent_preis60());
+					  theStudentPreis = theStudent.getStudent_preis60();
+				    break;
+				  case 90:
+					  lektion.setLektion_preis(theStudent.getStudent_preis90());
+					  theStudentPreis = theStudent.getStudent_preis90();
+					    break;
+				  case 120:
+					  lektion.setLektion_preis(theStudent.getStudent_preis120());
+					  theStudentPreis = theStudent.getStudent_preis120();
+					    break;
+				  default:
+					  throw new LektionNotFoundException("Die Lektion_min ist nicht vorhanden.");
+				}
+				
+				double theStudentKredit = lektion.getStudent().getStudent_kredit();
+				double theLektionPreis = lektion.getLektion_preis();			
+				
+				switch(lektion.getLektion_abrechnung()) {
+				  case 0:
+				    break;
+				  case 1:
+					  if(theStudentPreis != theLektionPreis) {
+						  theStudent.setStudent_kredit(theStudentKredit-theLektionPreis);
+					  }					 
+				    break;
+				  case 2:  
+					    break;
+				  default:
+					  throw new LektionNotFoundException("Die Lektion_abrechnung ist nicht vorhanden.");
+				}
+				
+				
 				Lektion theLektionSave = lektionRepository.save(lektion);
 				
 				List<Lektion> theLektionStudents = lektionRepository.findLektionByStudentID(student_id);
