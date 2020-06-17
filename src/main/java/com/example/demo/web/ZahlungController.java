@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,20 +37,31 @@ public class ZahlungController {
 	@GetMapping("/{zahlung_id}")
 	public ResponseEntity<?> findZahlungByID(@PathVariable long zahlung_id){			
 
-	Zahlung theZahlung = zahlungService.findZahlungByID(zahlung_id);
-		
-	return new ResponseEntity<Zahlung>(theZahlung, HttpStatus.OK);
+		Zahlung theZahlung = zahlungService.findZahlungByID(zahlung_id);
+			
+		return new ResponseEntity<Zahlung>(theZahlung, HttpStatus.OK);
 	}
 	
-	@PutMapping("/{student_id}")
-	public ResponseEntity<?> createNewZahlung(@Valid @RequestBody Zahlung zahlung, BindingResult result, @PathVariable long student_id ){			
+	@PostMapping("/")
+	public ResponseEntity<?> createNewZahlung(@Valid @RequestBody Zahlung zahlung, BindingResult result){			
 
-	ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
-	if(errorMap!=null) return errorMap;
-	
-	Zahlung theZahlung= zahlungService.saveOrUpdateZahlung(zahlung, student_id);
+		ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
+		if(errorMap!=null) return errorMap;
 		
-	return new ResponseEntity<Zahlung>(theZahlung, HttpStatus.CREATED);	
+		Zahlung theZahlung= zahlungService.saveOrUpdateZahlung(zahlung, zahlung.getStudent().getStudent_index());
+			
+		return new ResponseEntity<Zahlung>(theZahlung, HttpStatus.CREATED);	
+	}
+	
+	@PutMapping("/{zahlung_id}")
+	public ResponseEntity<?> updateZahlung(@Valid @RequestBody Zahlung zahlung, BindingResult result, @PathVariable long zahlung_id ){			
+
+		ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
+		if(errorMap!=null) return errorMap;
+		
+		Zahlung theZahlung= zahlungService.saveOrUpdateZahlung(zahlung, zahlung.getStudent().getStudent_index());
+			
+		return new ResponseEntity<Zahlung>(theZahlung, HttpStatus.CREATED);	
 	}
 	
 	@DeleteMapping("/{zahlung_id}")	

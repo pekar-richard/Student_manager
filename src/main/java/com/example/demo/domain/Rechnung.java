@@ -18,7 +18,11 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name="rechnung")
@@ -76,14 +80,18 @@ public class Rechnung {
 	@ManyToOne(fetch = FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.MERGE,
 			 CascadeType.DETACH, CascadeType.REFRESH})
 	@JoinColumn(name="rechn_agentur", nullable = true)
-	@JsonIgnore
+	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "agentur_index")
+    @JsonIdentityReference(alwaysAsId = true)
+    @JsonProperty("agentur_index")
 	private Agentur agentur;
 	
 	//ManytoOne with Student
 	@ManyToOne(fetch = FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.MERGE,
 			 CascadeType.DETACH, CascadeType.REFRESH})
 	@JoinColumn(name="rechn_student", nullable = true)
-	@JsonIgnore
+	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "student_index")
+    @JsonIdentityReference(alwaysAsId = true)
+    @JsonProperty("student_index")
 	private Student student;
 	
 	public Rechnung() {
@@ -221,4 +229,20 @@ public class Rechnung {
 	public void setStudent(Student student) {
 		this.student = student;
 	}
+	
+	public static Rechnung fromId(Long rechnung_index) {
+		Rechnung rechnung = new Rechnung();
+		rechnung.rechn_index = rechnung_index;
+	    return rechnung;
+	}
+	
+	@JsonProperty("student_index")
+    public void setStudentById(Long student_index) {
+        student = Student.fromId(student_index);
+    }
+	
+	@JsonProperty("agentur_index")
+    public void setAgenturById(Long agentur_index) {
+        agentur = Agentur.fromId(agentur_index);
+    }
 }

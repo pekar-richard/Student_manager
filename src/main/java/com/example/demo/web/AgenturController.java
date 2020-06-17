@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,20 +38,31 @@ public class AgenturController {
 	@GetMapping("/{agentur_id}")
 	public ResponseEntity<?> findAgenturByID(@PathVariable long agentur_id){			
 
-	Agentur theagentur= agenturService.findAgenturByID(agentur_id);
-		
-	return new ResponseEntity<Agentur>(theagentur, HttpStatus.OK);	
+		Agentur theagentur= agenturService.findAgenturByID(agentur_id);
+			
+		return new ResponseEntity<Agentur>(theagentur, HttpStatus.OK);	
 	}
 
-	@PutMapping("")
+	@PostMapping("/")
 	public ResponseEntity<?> createNewAgentur(@Valid @RequestBody Agentur agentur, BindingResult result){	
 
-	ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
-	if(errorMap!=null) return errorMap;
-	
-	Agentur theagentur= agenturService.saveOrUpdateAgentur(agentur);
+		ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
+		if(errorMap!=null) return errorMap;
 		
-	return new ResponseEntity<Agentur>(theagentur, HttpStatus.CREATED);	
+		Agentur theagentur= agenturService.saveOrUpdateAgentur(agentur);
+			
+		return new ResponseEntity<Agentur>(theagentur, HttpStatus.CREATED);
+	}
+	
+	@PutMapping("/{agentur_id}")
+	public ResponseEntity<?> updateAgentur(@Valid @RequestBody Agentur agentur, BindingResult result, @PathVariable long agentur_id){	
+
+		ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
+		if(errorMap!=null) return errorMap;
+		
+		Agentur theagentur= agenturService.saveOrUpdateAgentur(agentur);
+			
+		return new ResponseEntity<Agentur>(theagentur, HttpStatus.CREATED);	
 	}
 	
 	@DeleteMapping("/{agentur_id}")	

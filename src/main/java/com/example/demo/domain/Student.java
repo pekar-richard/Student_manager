@@ -22,7 +22,11 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name="student")
@@ -105,7 +109,9 @@ public class Student {
 	@ManyToOne(fetch = FetchType.LAZY,cascade= {CascadeType.PERSIST, CascadeType.MERGE,
 			 CascadeType.DETACH, CascadeType.REFRESH})
 	@JoinColumn(name="student_agentur", nullable = true)
-	@JsonIgnore
+	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "agentur_index")
+    @JsonIdentityReference(alwaysAsId = true)
+    @JsonProperty("agentur_index")
 	private Agentur agentur;
 
 	//OneToMany with Lektion
@@ -355,5 +361,16 @@ public class Student {
 	public void setStudent_komm(String student_komm) {
 		this.student_komm = student_komm;
 	}
+	
+	public static Student fromId(Long student_index) {
+		Student student = new Student();
+		student.student_index = student_index;
+	    return student;
+	}
+	
+	@JsonProperty("agentur_index")
+    public void setAgenturById(Long agentur_index) {
+        agentur = Agentur.fromId(agentur_index);
+    }
 	
 }

@@ -43,16 +43,28 @@ public class StudentController {
 	return new ResponseEntity<Student>(thestudent, HttpStatus.OK);	
 	}
 	
-	@PutMapping("/{agentur_id}")
-	public ResponseEntity<?> createNewStudent(@Valid @RequestBody Student student, BindingResult result, @PathVariable long agentur_id ){			
+	@PostMapping("/")
+	public ResponseEntity<?> createNewStudent(@Valid @RequestBody Student student, BindingResult result){			
 
-	ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
-	if(errorMap!=null) return errorMap;
-	
-	Student thestudent= studentService.saveOrUpdateStudent(student, agentur_id);
+		ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
+		if(errorMap!=null) return errorMap;
 		
-	return new ResponseEntity<Student>(thestudent, HttpStatus.CREATED);	
+		Student thestudent= studentService.saveOrUpdateStudent(student, student.getAgentur().getAgentur_index());
+			
+		return new ResponseEntity<Student>(thestudent, HttpStatus.CREATED);	
 	}
+	
+	@PutMapping("/{student_id}")
+	public ResponseEntity<?> updateStudent(@Valid @RequestBody Student student, BindingResult result, @PathVariable long student_id ){			
+
+		ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
+		if(errorMap!=null) return errorMap;
+		
+		Student thestudent= studentService.saveOrUpdateStudent(student, student.getAgentur().getAgentur_index());
+			
+		return new ResponseEntity<Student>(thestudent, HttpStatus.CREATED);
+	}
+	
 	
 	@DeleteMapping("/{student_id}")	
 	public ResponseEntity<?> deleteStudent(@PathVariable long student_id ){

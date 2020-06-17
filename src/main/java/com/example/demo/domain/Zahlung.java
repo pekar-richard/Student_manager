@@ -18,7 +18,10 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name="zahlung")
@@ -37,6 +40,10 @@ public class Zahlung {
 	@NotNull(message="Bitte tragen Sie Zahlung_Betrag ein.")
 	@Column(name="zahlung_betrag")
 	private double zahlung_betrag;
+	
+	@NotNull(message="Bitte tragen Sie Zahlung_Betragubrig ein.")
+	@Column(name="zahlung_betragubrig")
+	private double zahlung_betragubrig;
 	
 	@NotBlank(message="Bitte tragen Sie Zahlung_Konto ein.")
 	@Column(name="zahlung_konto")
@@ -64,7 +71,9 @@ public class Zahlung {
 	@ManyToOne(fetch = FetchType.LAZY,cascade= {CascadeType.PERSIST, CascadeType.MERGE,
 			 CascadeType.DETACH, CascadeType.REFRESH})
 	@JoinColumn(name="zahlung_student", nullable = false)
-	@JsonIgnore
+	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "student_index")
+    @JsonIdentityReference(alwaysAsId = true)
+    @JsonProperty("student_index")
 	private Student student;
 	
 	public void removeStudent() {	
@@ -84,6 +93,16 @@ public class Zahlung {
 	@PreUpdate
 	protected void onUpdate() {
 		this.updated_At = new Date();	
+	}
+	
+	
+
+	public double getZahlung_betragubrig() {
+		return zahlung_betragubrig;
+	}
+
+	public void setZahlung_betragubrig(double zahlung_betragubrig) {
+		this.zahlung_betragubrig = zahlung_betragubrig;
 	}
 
 	public Long getZahlung_index() {
@@ -165,5 +184,15 @@ public class Zahlung {
 	public void setStudent(Student student) {
 		this.student = student;
 	}	
+		
+	public static Zahlung fromId(Long zahlung_index) {
+		Zahlung zahlung = new Zahlung();
+		zahlung.zahlung_index = zahlung_index;
+	    return zahlung;
+	}
 	
+	@JsonProperty("student_index")
+    public void setStudentById(Long student_index) {
+        student = Student.fromId(student_index);
+    }
 }

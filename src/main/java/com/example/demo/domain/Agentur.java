@@ -175,5 +175,11 @@ public class Agentur {
 	public void setAgentur_komm(String agentur_komm) {
 		this.agentur_komm = agentur_komm;
 	}
+	
+	public static Agentur fromId(Long agentur_index) {
+		Agentur agentur = new Agentur();
+		agentur.agentur_index = agentur_index;
+	    return agentur;
+	}
 
 }

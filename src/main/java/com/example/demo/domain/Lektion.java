@@ -17,7 +17,11 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name="lektion")
@@ -69,14 +73,18 @@ public class Lektion {
 	@ManyToOne(fetch = FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.MERGE,
 			 CascadeType.DETACH, CascadeType.REFRESH})
 	@JoinColumn(name="lektion_agentur", nullable = true)
-	@JsonIgnore
+	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "agentur_index")
+    @JsonIdentityReference(alwaysAsId = true)
+    @JsonProperty("agentur_index")
 	private Agentur agentur;
 	
 	//ManytoOne with Student
 	@ManyToOne(fetch = FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.MERGE,
 			 CascadeType.DETACH, CascadeType.REFRESH})
 	@JoinColumn(name="lektion_student", nullable = true)
-	@JsonIgnore
+	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "student_index")
+    @JsonIdentityReference(alwaysAsId = true)
+    @JsonProperty("student_index")
 	private Student student;
 	
 	public Lektion() {
@@ -206,4 +214,20 @@ public class Lektion {
 	public void setStudent(Student student) {
 		this.student = student;
 	}
+	
+	public static Lektion fromId(Long lektion_index) {
+		Lektion lektion = new Lektion();
+		lektion.lektion_index = lektion_index;
+	    return lektion;
+	}
+	
+	@JsonProperty("student_index")
+    public void setStudentById(Long student_index) {
+        student = Student.fromId(student_index);
+    }
+	
+	@JsonProperty("agentur_index")
+    public void setAgenturById(Long agentur_index) {
+        agentur = Agentur.fromId(agentur_index);
+    }
 }

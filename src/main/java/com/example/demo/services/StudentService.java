@@ -19,7 +19,6 @@ public class StudentService {
 	private AgenturRepository agenturRepository;
 	
 	
-	
 	public Iterable<Student> findAllStudents(){
 		
 		return studentRepository.findAll();		

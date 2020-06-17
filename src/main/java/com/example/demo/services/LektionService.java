@@ -9,10 +9,12 @@ import org.springframework.stereotype.Service;
 import com.example.demo.domain.Agentur;
 import com.example.demo.domain.Lektion;
 import com.example.demo.domain.Student;
+import com.example.demo.domain.Zahlung;
 import com.example.demo.exceptions.LektionNotFoundException;
 import com.example.demo.repositories.AgenturRepository;
 import com.example.demo.repositories.LektionRepository;
 import com.example.demo.repositories.StudentRepository;
+import com.example.demo.repositories.ZahlungRepository;
 
 
 @Service
@@ -26,6 +28,9 @@ public class LektionService {
 	
 	@Autowired
 	private StudentRepository studentRepository;
+	
+	@Autowired
+	private ZahlungRepository zahlungRepository;
 	
 	Date lastDate;
 	private double theStudentPreis = 0;
@@ -106,6 +111,13 @@ public class LektionService {
 				    break;
 				  case 1:
 					  theStudent1.setStudent_kredit(theStudentKredit-theLektionPreis);
+					  List<Zahlung> theStudentZahlungen= theStudent1.getZahlungs();
+					  
+					  for (int i = 0; i < theStudentZahlungen.size(); i++) {
+						  if(theStudentZahlungen.get(i).getZahlung_betragubrig()>0 && theStudentZahlungen.get(i).getZahlung_betragubrig()>=lektion.getLektion_preis())
+						  {theStudentZahlungen.get(i).setZahlung_betragubrig(theStudentZahlungen.get(i).getZahlung_betragubrig()-lektion.getLektion_preis());break;}
+						}
+					 
 				    break;
 				  case 2:  
 					    break;

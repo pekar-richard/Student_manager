@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,13 +42,24 @@ public class RechnungController {
 	return new ResponseEntity<Rechnung>(theRechnung, HttpStatus.OK);
 	}
 	
-	@PutMapping("/{student_id}/{agentur_id}")
-	public ResponseEntity<?> createNewRechnung(@Valid @RequestBody Rechnung rechnung, BindingResult result, @PathVariable long agentur_id, @PathVariable long student_id ){			
+	@PostMapping("/")
+	public ResponseEntity<?> createNewRechnung(@Valid @RequestBody Rechnung rechnung, BindingResult result ){			
 
 	ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
 	if(errorMap!=null) return errorMap;
 	
-	Rechnung theRechnung= rechnungService.saveOrUpdateRechnung(rechnung, student_id, agentur_id);
+	Rechnung theRechnung= rechnungService.saveOrUpdateRechnung(rechnung, rechnung.getStudent().getStudent_index(), rechnung.getAgentur().getAgentur_index());
+		
+	return new ResponseEntity<Rechnung>(theRechnung, HttpStatus.CREATED);	
+	}
+	
+	@PutMapping("/{rechnung_id}")
+	public ResponseEntity<?> updateRechnung(@Valid @RequestBody Rechnung rechnung, BindingResult result, @PathVariable long rechnung_id ){			
+
+	ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
+	if(errorMap!=null) return errorMap;
+	
+	Rechnung theRechnung= rechnungService.saveOrUpdateRechnung(rechnung, rechnung.getStudent().getStudent_index(), rechnung.getAgentur().getAgentur_index());
 		
 	return new ResponseEntity<Rechnung>(theRechnung, HttpStatus.CREATED);	
 	}

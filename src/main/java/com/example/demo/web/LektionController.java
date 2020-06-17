@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,15 +42,26 @@ public class LektionController {
 	return new ResponseEntity<Lektion>(theLektion, HttpStatus.OK);
 	}
 	
-	@PutMapping("/{student_id}/{agentur_id}")
-	public ResponseEntity<?> createNewLektion(@Valid @RequestBody Lektion lektion, BindingResult result, @PathVariable long agentur_id, @PathVariable long student_id ){			
+	@PostMapping("/")
+	public ResponseEntity<?> createNewLektion(@Valid @RequestBody Lektion lektion, BindingResult result){			
 
 	ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
 	if(errorMap!=null) return errorMap;
 	
-	Lektion theLektion= lektionService.saveOrUpdateLektion(lektion, student_id, agentur_id);
+	Lektion theLektion= lektionService.saveOrUpdateLektion(lektion, lektion.getStudent().getStudent_index(), lektion.getAgentur().getAgentur_index());
 		
 	return new ResponseEntity<Lektion>(theLektion, HttpStatus.CREATED);	
+	}
+	
+	@PutMapping("/{lektion_id}")
+	public ResponseEntity<?> updateLektion(@Valid @RequestBody Lektion lektion, BindingResult result, @PathVariable long lektion_id){			
+
+	ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
+	if(errorMap!=null) return errorMap;
+	
+	Lektion theLektion= lektionService.saveOrUpdateLektion(lektion, lektion.getStudent().getStudent_index(), lektion.getAgentur().getAgentur_index());
+		
+	return new ResponseEntity<Lektion>(theLektion, HttpStatus.CREATED);
 	}
 	
 	@DeleteMapping("/{lektion_id}")	

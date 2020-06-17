@@ -40,25 +40,32 @@ public class ZahlungService {
 	public Zahlung saveOrUpdateZahlung(Zahlung zahlung, long student_id) {	
 	
 	try {	
-		
-		Student theStudent = studentRepository.findStudentByID(student_id);
-		if( theStudent!= null) {
 			
-			theStudent.addZahlung(zahlung);
-			theStudent.setStudent_kredit(theStudent.getStudent_kredit()+zahlung.getZahlung_betrag());
-		}else {
-			
-			throw new StudentNotFoundException("Der Student ID: '"+ student_id + "'is nicht vorhanden.");
-			
-		}
-				
 		if(zahlung.getZahlung_index() == null) {
+			
+			Student theStudent = studentRepository.findStudentByID(student_id);
+			
+			zahlung.setZahlung_betragubrig(zahlung.getZahlung_betrag());
+			if(zahlung.getZahlung_betrag()<0) {zahlung.setZahlung_betragubrig(0);}
+			if(theStudent.getStudent_kredit()<0){zahlung.setZahlung_betragubrig(zahlung.getZahlung_betragubrig()-Math.abs(theStudent.getStudent_kredit()));}
+			
+			if( theStudent!= null) {
+				
+				theStudent.addZahlung(zahlung);
+				theStudent.setStudent_kredit(theStudent.getStudent_kredit()+zahlung.getZahlung_betrag());
+				
+			}else {
+				
+				throw new StudentNotFoundException("Der Student ID: '"+ student_id + "'is nicht vorhanden.");	
+			}
 			
 			return zahlungRepository.save(zahlung);
 			
 		}else {
 		
+			Student theStudent = studentRepository.findStudentByID(student_id);
 			Zahlung theZahlung = zahlungRepository.findZahlungByID(zahlung.getZahlung_index());
+			
 				if(theZahlung == null) {	
 					throw new ZahlungNotFoundException("Die Zahlung ID:'"+ zahlung.getZahlung_index() + "'ist nicht vorhanden.");
 				}
@@ -70,16 +77,26 @@ public class ZahlungService {
 					
 					if(theZahlungBetrag<0) {
 						theZahlung.getStudent().setStudent_kredit(theStudentKredit+theZahlungBetrag);
+						zahlung.setZahlung_betragubrig(0);
 					}
 					
 					if(theZahlungBetrag>0) {
-						theZahlung.getStudent().setStudent_kredit(theStudentKredit-theZahlungBetrag);			
+						theZahlung.getStudent().setStudent_kredit(theStudentKredit-theZahlungBetrag);
+						
+						if(zahlung.getZahlung_betrag()>theZahlungBetrag) {
+							
+							zahlung.setZahlung_betragubrig(zahlung.getZahlung_betragubrig()+(zahlung.getZahlung_betrag()-theZahlungBetrag));
+						}else {
+							
+							zahlung.setZahlung_betragubrig(zahlung.getZahlung_betragubrig()-(theZahlungBetrag-zahlung.getZahlung_betrag()));
+						}
+						
 					}
 					
 					theZahlung.getStudent().setStudent_kredit(theStudentKredit-theZahlungBetrag);
 					
 				}
-				
+				theStudent.addZahlung(zahlung);
 			return	zahlungRepository.save(zahlung);
 			
 		}	
