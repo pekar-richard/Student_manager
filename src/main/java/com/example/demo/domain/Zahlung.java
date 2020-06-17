@@ -186,6 +186,10 @@ public class Zahlung {
 	}	
 		
 	public static Zahlung fromId(Long zahlung_index) {
+		
+		if (zahlung_index == null) {
+			return null;
+		}
 		Zahlung zahlung = new Zahlung();
 		zahlung.zahlung_index = zahlung_index;
 	    return zahlung;

@@ -231,6 +231,10 @@ public class Rechnung {
 	}
 	
 	public static Rechnung fromId(Long rechnung_index) {
+		
+		if (rechnung_index == null) {
+			return null;
+		}
 		Rechnung rechnung = new Rechnung();
 		rechnung.rechn_index = rechnung_index;
 	    return rechnung;

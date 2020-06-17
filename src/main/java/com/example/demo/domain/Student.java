@@ -21,6 +21,8 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.Length;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
@@ -60,22 +62,18 @@ public class Student {
 	@Column(name="student_letztermin")
 	private Date student_letztermin;
 	
-	@NotNull(message="Bitte tragen Sie Student_Preis45 ein.")
 	@Digits(integer=3, fraction=2)
 	@Column(name="student_preis45")
 	private double student_preis45;
 	
-	@NotNull(message="Bitte tragen Sie Student_Preis60 ein.")
 	@Column(name="student_preis60")
 	@Digits(integer=3, fraction=2)
 	private double student_preis60;
 	
-	@NotNull(message="Bitte tragen Sie Student_Preis90 ein.")
 	@Column(name="student_preis90")
 	@Digits(integer=3, fraction=2)
 	private double student_preis90;
-	
-	@NotNull(message="Bitte tragen Sie Student_Preis120 ein.")
+
 	@Column(name="student_preis120")
 	@Digits(integer=3, fraction=2)
 	private double student_preis120;
@@ -83,7 +81,6 @@ public class Student {
 	@Column(name="student_abrechnung")
 	private int student_abrechnung;
 	
-	@NotNull(message="Bitte tragen Sie Student_Kredit ein.")
 	@Column(name="student_kredit")
 	@Digits(integer=3, fraction=2)
 	private double student_kredit;
@@ -363,6 +360,11 @@ public class Student {
 	}
 	
 	public static Student fromId(Long student_index) {
+		
+		if (student_index == null) {
+			return null;
+		}
+		
 		Student student = new Student();
 		student.student_index = student_index;
 	    return student;

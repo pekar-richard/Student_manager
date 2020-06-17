@@ -177,6 +177,11 @@ public class Agentur {
 	}
 	
 	public static Agentur fromId(Long agentur_index) {
+		
+		if (agentur_index == null) {
+			return null;
+		}
+		
 		Agentur agentur = new Agentur();
 		agentur.agentur_index = agentur_index;
 	    return agentur;

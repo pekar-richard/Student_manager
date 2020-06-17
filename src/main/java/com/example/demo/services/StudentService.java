@@ -50,37 +50,36 @@ public class StudentService {
 	}
 	
 	
-	public Student saveOrUpdateStudent(Student student, long agentur_id) {
+	public Student saveOrUpdateStudent(Student student) {
 		
 	try {	
 		
-		if(student.getStudent_index() == null) {
+			Agentur theagentur = student.getAgentur();
 			
-			Agentur theagentur = agenturRepository.findAgenturByID(agentur_id);
-			if( theagentur!= null) {
-				
-				theagentur.addStudent(student);
+			Agentur theagenturFromDb = null;
+			
+			if (theagentur != null) {
+				theagenturFromDb = agenturRepository.findAgenturByID(theagentur.getAgentur_index());
 			}
-			student.setStudent_sortierung(student.getStudent_nachname()+", "+student.getStudent_vorname());
-			return studentRepository.save(student);
-			
-		}else { 
-			
+						
+			if( theagenturFromDb!= null) {
+				theagenturFromDb.addStudent(student);
+			}
+		
+			if(student.getStudent_index() != null) {
 				Student theStudent = findStudentByID(student.getStudent_index());
 				if(theStudent == null) {	
 					throw new StudentNotFoundException("Der Student ID: '"+ student.getStudent_index() + "'is nicht vorhanden.");
-			}
+				}
+			}	
 			
-				Agentur theagentur = agenturRepository.findAgenturByID(agentur_id);
-				theagentur.addStudent(student);
-				student.setStudent_sortierung(student.getStudent_nachname()+", "+student.getStudent_vorname());
-				return studentRepository.save(student);	
-		}	
+			student.setStudent_sortierung(student.getStudent_nachname()+", "+student.getStudent_vorname());
+			return studentRepository.save(student);
 				
-		}catch (StudentNotFoundException e){			
+		} catch (StudentNotFoundException e){			
 			throw e;
-		}catch (Exception e){			
-			throw new StudentNotFoundException("Der Student ID: '"+ student.getStudent_index() + "' oder Die Agentur ID: '" + agentur_id + "' is nicht vorhanden.");
+		} catch (Exception e){			
+			throw new StudentNotFoundException("Der Student ID: '"+ student.getStudent_index() + "' oder Die Agentur ID is nicht vorhanden.");
 		}
 
 	}

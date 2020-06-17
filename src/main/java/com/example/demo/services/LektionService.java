@@ -107,9 +107,9 @@ public class LektionService {
 				double theLektionPreis = lektion.getLektion_preis();			
 				
 				switch(lektion.getLektion_abrechnung()) {
-				  case 0:
-				    break;
 				  case 1:
+				    break;
+				  case 2:
 					  theStudent1.setStudent_kredit(theStudentKredit-theLektionPreis);
 					  List<Zahlung> theStudentZahlungen= theStudent1.getZahlungs();
 					  
@@ -119,7 +119,7 @@ public class LektionService {
 						}
 					 
 				    break;
-				  case 2:  
+				  case 3:  
 					    break;
 				  default:
 					  throw new LektionNotFoundException("Die Lektion_abrechnung ist nicht vorhanden.");
@@ -168,14 +168,14 @@ public class LektionService {
 				double theLektionPreis = lektion.getLektion_preis();			
 				
 				switch(lektion.getLektion_abrechnung()) {
-				  case 0:
-				    break;
 				  case 1:
+				    break;
+				  case 2:
 					  if(theStudentPreis != theLektionPreis) {
 						  theStudent.setStudent_kredit(theStudentKredit-theLektionPreis);
 					  }					 
 				    break;
-				  case 2:  
+				  case 3:  
 					    break;
 				  default:
 					  throw new LektionNotFoundException("Die Lektion_abrechnung ist nicht vorhanden.");

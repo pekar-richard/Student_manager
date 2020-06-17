@@ -44,12 +44,12 @@ public class StudentController {
 	}
 	
 	@PostMapping("/")
-	public ResponseEntity<?> createNewStudent(@Valid @RequestBody Student student, BindingResult result){			
+	public ResponseEntity<?> createNewStudent(@Valid @RequestBody Student student, BindingResult result){
 
 		ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
 		if(errorMap!=null) return errorMap;
 		
-		Student thestudent= studentService.saveOrUpdateStudent(student, student.getAgentur().getAgentur_index());
+		Student thestudent= studentService.saveOrUpdateStudent(student);
 			
 		return new ResponseEntity<Student>(thestudent, HttpStatus.CREATED);	
 	}
@@ -60,7 +60,7 @@ public class StudentController {
 		ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
 		if(errorMap!=null) return errorMap;
 		
-		Student thestudent= studentService.saveOrUpdateStudent(student, student.getAgentur().getAgentur_index());
+		Student thestudent= studentService.saveOrUpdateStudent(student);
 			
 		return new ResponseEntity<Student>(thestudent, HttpStatus.CREATED);
 	}

@@ -216,6 +216,10 @@ public class Lektion {
 	}
 	
 	public static Lektion fromId(Long lektion_index) {
+		
+		if (lektion_index == null) {
+			return null;
+		}
 		Lektion lektion = new Lektion();
 		lektion.lektion_index = lektion_index;
 	    return lektion;
