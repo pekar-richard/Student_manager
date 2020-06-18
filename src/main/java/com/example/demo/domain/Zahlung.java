@@ -32,16 +32,13 @@ public class Zahlung {
 	@Column(name="zahlung_index")
 	private Long zahlung_index;
 	
-	@NotNull(message="Bitte wählen Sie Zahlung_Datum.")
 	@JsonFormat(pattern="yyyy-MM-dd")
 	@Column(name="zahlung_datum")
 	private Date zahlung_datum;
 	
-	@NotNull(message="Bitte tragen Sie Zahlung_Betrag ein.")
 	@Column(name="zahlung_betrag")
 	private double zahlung_betrag;
 	
-	@NotNull(message="Bitte tragen Sie Zahlung_Betragubrig ein.")
 	@Column(name="zahlung_betragubrig")
 	private double zahlung_betragubrig;
 	
@@ -52,18 +49,17 @@ public class Zahlung {
 	@Column(name="zahlung_steuer")
 	private int zahlung_steuer;
 	
-	@NotNull(message="Bitte tragen Sie Zahlung_Rgnr ein.")
 	@Column(name="zahlung_rgnr")
 	private int zahlung_rgnr;
 	
 	@Column(name="zahlung_komm")
 	private String zahlung_komm;
 	
-	@JsonFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 	@Column(name="created_at", updatable= false)
 	private Date created_At;
 	
-	@JsonFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 	@Column(name="updated_at")
 	private Date updated_At;
 	

@@ -31,7 +31,7 @@ public class LektionController {
 	@Autowired
 	private MapValidationErrorService mapValidationErrorService;
 	
-	@GetMapping("/allalektions")
+	@GetMapping("/alllektions")
 	public Iterable<Lektion> getAllLektions(){return lektionService.findAllLektions();}
 
 	@GetMapping("/{lektion_id}")

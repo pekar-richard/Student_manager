@@ -32,16 +32,13 @@ public class Lektion {
 	@Column(name="lektion_index")
 	private Long lektion_index;
 	
-	@NotNull(message="Bitte wählen Sie Lektion_Datum.")
-	@JsonFormat(pattern="yyyy-MM-dd@HH:mm:ss.SSSZ")
+	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 	@Column(name="lektion_datum")
 	private Date lektion_datum;
 	
-	@NotNull(message="Bitte wählen Sie Lektion_Min.")
 	@Column(name="lektion_min")
 	private int lektion_min;
 	
-	@NotNull(message="Bitte tragen Sie Lektion_Preis ein.")
 	@Column(name="lektion_preis")
 	private double lektion_preis;
 	
@@ -57,15 +54,15 @@ public class Lektion {
 	@Column(name="lektion_rgnr")
 	private int lektion_rgnr;
 	
-	@JsonFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 	@Column(name="lektion_bezahlt")
 	private Date lektion_bezahlt;
 	
-	@JsonFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 	@Column(name="created_at", updatable= false)
 	private Date created_At;
 	
-	@JsonFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 	@Column(name="updated_at")
 	private Date updated_At;
 	

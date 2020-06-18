@@ -60,19 +60,17 @@ public class Rechnung {
 	@Column(name="rechn_land")
 	private String rechn_land;
 	
-	@NotNull(message="Bitte tragen Sie Rechn_ICO ein.")
 	@Column(name="rechn_ico")
 	private int rechn_ico;
 	
-	@NotNull(message="Bitte tragen Sie Rechn_DIC ein.")
 	@Column(name="rechn_dic")
 	private int rechn_dic;
 
-	@JsonFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 	@Column(name="created_at", updatable= false)
 	private Date created_At;
 	
-	@JsonFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 	@Column(name="updated_at")
 	private Date updated_At;
 	

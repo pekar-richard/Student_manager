@@ -54,11 +54,11 @@ public class Student {
 	@Column(name="student_gebdat")
 	private Date student_gebdat;
 	
-	@JsonFormat(pattern="yyyy-MM-dd@HH:mm:ss.SSSZ")
+	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 	@Column(name="student_ersttermin")
 	private Date student_ersttermin;
 	
-	@JsonFormat(pattern="yyyy-MM-dd@HH:mm:ss.SSSZ")
+	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 	@Column(name="student_letztermin")
 	private Date student_letztermin;
 	
@@ -94,11 +94,11 @@ public class Student {
 	@Column(name="student_komm")
 	private String student_komm;
 	
-	@JsonFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 	@Column(name="created_at", updatable= false)
 	private Date created_At;
 	
-	@JsonFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 	@Column(name="updated_at")
 	private Date updated_At;
 	
