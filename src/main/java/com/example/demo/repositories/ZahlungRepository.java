@@ -1,5 +1,7 @@
 package com.example.demo.repositories;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -15,4 +17,7 @@ public interface ZahlungRepository extends CrudRepository<Zahlung,Long>{
 	
 	@Query("from Zahlung where zahlung_index=:Zahlung_index")  
 	public Zahlung findZahlungByID(@Param("Zahlung_index") long u);
+	
+	@Query("from Zahlung where zahlung_student=:Student_index")
+	public List<Zahlung> findZahlungByStudentID(@Param("Student_index") long u);
 }

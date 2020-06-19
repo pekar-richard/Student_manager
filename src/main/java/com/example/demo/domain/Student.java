@@ -19,9 +19,6 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -66,16 +63,16 @@ public class Student {
 	@Column(name="student_preis45")
 	private double student_preis45;
 	
+	@Digits(integer=3, fraction=2)
 	@Column(name="student_preis60")
-	@Digits(integer=3, fraction=2)
 	private double student_preis60;
-	
-	@Column(name="student_preis90")
-	@Digits(integer=3, fraction=2)
-	private double student_preis90;
 
-	@Column(name="student_preis120")
 	@Digits(integer=3, fraction=2)
+	@Column(name="student_preis90")
+	private double student_preis90;
+	
+	@Digits(integer=3, fraction=2)
+	@Column(name="student_preis120")
 	private double student_preis120;
 	
 	@Column(name="student_abrechnung")

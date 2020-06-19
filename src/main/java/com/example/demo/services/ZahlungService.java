@@ -1,8 +1,11 @@
 package com.example.demo.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.domain.Lektion;
 import com.example.demo.domain.Student;
 import com.example.demo.domain.Zahlung;
 import com.example.demo.exceptions.StudentNotFoundException;
@@ -127,6 +130,10 @@ public class ZahlungService {
 	zahlungRepository.delete(theZahlung);
 
 }
-	
+	public List<Zahlung> findZahlungByStudentID(long student_id){
+		
+		return zahlungRepository.findZahlungByStudentID(student_id);
+		
+	}
 
 }

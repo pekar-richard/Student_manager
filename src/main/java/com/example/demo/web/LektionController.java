@@ -48,7 +48,7 @@ public class LektionController {
 	ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
 	if(errorMap!=null) return errorMap;
 	
-	Lektion theLektion= lektionService.saveOrUpdateLektion(lektion, lektion.getStudent().getStudent_index(), lektion.getAgentur().getAgentur_index());
+	Lektion theLektion= lektionService.saveOrUpdateLektion(lektion);
 		
 	return new ResponseEntity<Lektion>(theLektion, HttpStatus.CREATED);	
 	}
@@ -59,7 +59,7 @@ public class LektionController {
 	ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
 	if(errorMap!=null) return errorMap;
 	
-	Lektion theLektion= lektionService.saveOrUpdateLektion(lektion, lektion.getStudent().getStudent_index(), lektion.getAgentur().getAgentur_index());
+	Lektion theLektion= lektionService.saveOrUpdateLektion(lektion);
 		
 	return new ResponseEntity<Lektion>(theLektion, HttpStatus.CREATED);
 	}
