@@ -38,15 +38,15 @@ public class AgenturService {
 	
 	try {	
 		
-		if(agentur.getAgentur_index() == null) {
+		if(agentur.getAgenturIndex() == null) {
 			
 			return agenturRepository.save(agentur);
 			
 		}else {
 		
-			Agentur theAgentur = findAgenturByID(agentur.getAgentur_index());
+			Agentur theAgentur = findAgenturByID(agentur.getAgenturIndex());
 				if(theAgentur == null) {	
-					throw new AgenturNotFoundException("Die Agentur ID: '"+ agentur.getAgentur_index() + "'is nicht vorhanden.");
+					throw new AgenturNotFoundException("Die Agentur ID: '"+ agentur.getAgenturIndex() + "'is nicht vorhanden.");
 				}
 		
 			return	agenturRepository.save(agentur);
@@ -56,7 +56,7 @@ public class AgenturService {
 	}catch (AgenturNotFoundException e){			
 		throw e;
 		}catch (Exception e){			
-		throw new AgenturNotFoundException("Die Agentur ID: '"+ agentur.getAgentur_index() + "'is nicht vorhanden.");
+		throw new AgenturNotFoundException("Die Agentur ID: '"+ agentur.getAgenturIndex() + "'is nicht vorhanden.");
 	}
 
 	}

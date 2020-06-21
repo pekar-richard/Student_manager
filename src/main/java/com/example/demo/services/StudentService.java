@@ -8,6 +8,7 @@ import com.example.demo.domain.Student;
 import com.example.demo.exceptions.StudentNotFoundException;
 import com.example.demo.repositories.AgenturRepository;
 import com.example.demo.repositories.StudentRepository;
+import org.springframework.data.domain.Sort;
 
 @Service
 public class StudentService {
@@ -19,11 +20,11 @@ public class StudentService {
 	private AgenturRepository agenturRepository;
 	
 	
-	public Iterable<Student> findAllStudents(){
+	public Iterable<Student> findAllStudents(Sort sort){
 		
-		return studentRepository.findAll();		
+		return studentRepository.findAll(sort);		
 	}
-
+	
 	
 	public Student findStudentByID(long student_id) {
 		
@@ -59,27 +60,27 @@ public class StudentService {
 			Agentur theagenturFromDb = null;
 			
 			if (theagentur != null) {
-				theagenturFromDb = agenturRepository.findAgenturByID(theagentur.getAgentur_index());
+				theagenturFromDb = agenturRepository.findAgenturByID(theagentur.getAgenturIndex());
 			}
 						
 			if( theagenturFromDb!= null) {
 				theagenturFromDb.addStudent(student);
 			}
 		
-			if(student.getStudent_index() != null) {
-				Student theStudent = findStudentByID(student.getStudent_index());
+			if(student.getStudentIndex() != null) {
+				Student theStudent = findStudentByID(student.getStudentIndex());
 				if(theStudent == null) {	
-					throw new StudentNotFoundException("Der Student ID: '"+ student.getStudent_index() + "'is nicht vorhanden.");
+					throw new StudentNotFoundException("Der Student ID: '"+ student.getStudentIndex() + "'is nicht vorhanden.");
 				}
 			}	
 			
-			student.setStudent_sortierung(student.getStudent_nachname()+", "+student.getStudent_vorname());
+			student.setStudentSortierung(student.getStudentNachname()+", "+student.getStudentVorname());
 			return studentRepository.save(student);
 				
 		} catch (StudentNotFoundException e){			
 			throw e;
 		} catch (Exception e){			
-			throw new StudentNotFoundException("Der Student ID: '"+ student.getStudent_index() + "' oder Die Agentur ID is nicht vorhanden.");
+			throw new StudentNotFoundException("Der Student ID: '"+ student.getStudentIndex() + "' oder Die Agentur ID is nicht vorhanden.");
 		}
 
 	}

@@ -2,6 +2,7 @@ package com.example.demo.repositories;
 
 
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -10,9 +11,8 @@ import com.example.demo.domain.Student;
 
 @Repository
 public interface StudentRepository extends CrudRepository<Student,Long> {
-	
-	@Override
-	Iterable<Student> findAll();
+
+	Iterable<Student> findAll(Sort sort);
 	
 	@Query("from Student where student_index=:Student_index")  
 	public Student findStudentByID(@Param("Student_index") long u);

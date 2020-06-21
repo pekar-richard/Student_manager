@@ -3,6 +3,7 @@ package com.example.demo.web;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -32,7 +33,7 @@ public class StudentController {
 	private MapValidationErrorService mapValidationErrorService;
 	
 	@GetMapping("/allstudents")
-	public Iterable<Student> getAllStudents(){return studentService.findAllStudents();}
+	public Iterable<Student> getAllStudents(){return studentService.findAllStudents(Sort.by(Sort.Direction.DESC,"studentIndex"));}
 	
 	@GetMapping("/{student_id}")
 	public ResponseEntity<?> findStudentByID(@PathVariable long student_id){			

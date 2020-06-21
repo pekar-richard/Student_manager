@@ -27,22 +27,22 @@ public class Agentur {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="agentur_index")
-	private Long agentur_index;
+	private Long agenturIndex;
 	
 	@NotBlank(message="Bitte tragen Sie Agentur_Kurzname ein.")
 	@Column(name="agentur_kurzname")
-	private String agentur_kurzname;
+	private String agenturKurzname;
 	
 	@Column(name="agentur_komm")
-	private String agentur_komm;
+	private String agenturKomm;
 	
 	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 	@Column(name="created_at", updatable= false)
-	private Date created_At;
+	private Date createdAt;
 	
 	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 	@Column(name="updated_at")
-	private Date updated_At;
+	private Date updatedAt;
 	
 	//OneToMany with Student
 	@OneToMany(fetch = FetchType.LAZY, mappedBy="agentur",  cascade= {CascadeType.PERSIST, CascadeType.MERGE,CascadeType.DETACH, CascadeType.REFRESH})
@@ -92,16 +92,68 @@ public class Agentur {
 		tempStudent.setAgentur(this);
 	}
 	
+	@PrePersist
+	protected void onCreate() {
+		this.createdAt = new Date();			
+	}
 	
+	@PreUpdate
+	protected void onUpdate() {
+		this.updatedAt = new Date();	
+	}
+
+	public Agentur() {
+		
+	}
+	
+	
+	public Long getAgenturIndex() {
+		return agenturIndex;
+	}
+
+	public void setAgenturIndex(Long agenturIndex) {
+		this.agenturIndex = agenturIndex;
+	}
+
+	public String getAgenturKurzname() {
+		return agenturKurzname;
+	}
+
+	public void setAgenturKurzname(String agenturKurzname) {
+		this.agenturKurzname = agenturKurzname;
+	}
+
+	public String getAgenturKomm() {
+		return agenturKomm;
+	}
+
+	public void setAgenturKomm(String agenturKomm) {
+		this.agenturKomm = agenturKomm;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
 	public List<Student> getStudents() {
 		return students;
 	}
 
-
 	public void setStudents(List<Student> students) {
 		this.students = students;
 	}
-
 
 	public List<Lektion> getLektions() {
 		return lektions;
@@ -110,7 +162,7 @@ public class Agentur {
 	public void setLektions(List<Lektion> lektions) {
 		this.lektions = lektions;
 	}
-	
+
 	public List<Rechnung> getRechnungs() {
 		return rechnungs;
 	}
@@ -118,71 +170,15 @@ public class Agentur {
 	public void setRechnungs(List<Rechnung> rechnungs) {
 		this.rechnungs = rechnungs;
 	}
-	
-	@PrePersist
-	protected void onCreate() {
-		this.created_At = new Date();			
-	}
-	
-	@PreUpdate
-	protected void onUpdate() {
-		this.updated_At = new Date();	
-	}
 
-	
-	public Date getCreated_At() {
-		return created_At;
-	}
-
-	public void setCreated_At(Date created_At) {
-		this.created_At = created_At;
-	}
-
-	public Date getUpdated_At() {
-		return updated_At;
-	}
-
-	public void setUpdated_At(Date updated_At) {
-		this.updated_At = updated_At;
-	}
-
-
-	public Agentur() {
+	public static Agentur fromId(Long agenturIndex) {
 		
-	}
-
-	public Long getAgentur_index() {
-		return agentur_index;
-	}
-
-	public void setAgentur_index(Long agentur_index) {
-		this.agentur_index = agentur_index;
-	}
-
-	public String getAgentur_kurzname() {
-		return agentur_kurzname;
-	}
-
-	public void setAgentur_kurzname(String agentur_kurzname) {
-		this.agentur_kurzname = agentur_kurzname;
-	}
-
-	public String getAgentur_komm() {
-		return agentur_komm;
-	}
-
-	public void setAgentur_komm(String agentur_komm) {
-		this.agentur_komm = agentur_komm;
-	}
-	
-	public static Agentur fromId(Long agentur_index) {
-		
-		if (agentur_index == null) {
+		if (agenturIndex == null) {
 			return null;
 		}
 		
 		Agentur agentur = new Agentur();
-		agentur.agentur_index = agentur_index;
+		agentur.agenturIndex = agenturIndex;
 	    return agentur;
 	}
 

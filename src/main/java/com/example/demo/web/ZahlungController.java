@@ -59,7 +59,7 @@ public class ZahlungController {
 		ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
 		if(errorMap!=null) return errorMap;
 		
-		Zahlung theZahlung= zahlungService.saveOrUpdateZahlung(zahlung, zahlung.getStudent().getStudent_index());
+		Zahlung theZahlung= zahlungService.saveOrUpdateZahlung(zahlung, zahlung.getStudent().getStudentIndex());
 			
 		return new ResponseEntity<Zahlung>(theZahlung, HttpStatus.CREATED);	
 	}
@@ -70,7 +70,7 @@ public class ZahlungController {
 		ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
 		if(errorMap!=null) return errorMap;
 		
-		Zahlung theZahlung= zahlungService.saveOrUpdateZahlung(zahlung, zahlung.getStudent().getStudent_index());
+		Zahlung theZahlung= zahlungService.saveOrUpdateZahlung(zahlung, zahlung.getStudent().getStudentIndex());
 			
 		return new ResponseEntity<Zahlung>(theZahlung, HttpStatus.CREATED);	
 	}

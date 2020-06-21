@@ -34,78 +34,78 @@ public class Student {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="student_index")
-	private Long student_index;
+	private Long studentIndex;
 
 	@NotBlank(message="Bitte tragen Sie Student_Nachname ein.")
 	@Column(name="student_nachname")
-	private String student_nachname;
+	private String studentNachname;
 	
 	@NotBlank(message="Bitte tragen Sie Student_Vorname ein.")
 	@Column(name="student_vorname")
-	private String student_vorname;
+	private String studentVorname;
 	
 	@Column(name="student_sortierung")
-	private String student_sortierung;
+	private String studentSortierung;
 	
 	@JsonFormat(pattern="yyyy-MM-dd")
 	@Column(name="student_gebdat")
-	private Date student_gebdat;
+	private Date studentGebdat;
 	
 	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 	@Column(name="student_ersttermin")
-	private Date student_ersttermin;
+	private Date studentErsttermin;
 	
 	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 	@Column(name="student_letztermin")
-	private Date student_letztermin;
+	private Date studentLetztermin;
 	
 	@Digits(integer=3, fraction=2)
 	@Column(name="student_preis45")
-	private double student_preis45;
+	private double studentPreis45;
 	
 	@Digits(integer=3, fraction=2)
 	@Column(name="student_preis60")
-	private double student_preis60;
+	private double studentPreis60;
 
 	@Digits(integer=3, fraction=2)
 	@Column(name="student_preis90")
-	private double student_preis90;
+	private double studentPreis90;
 	
 	@Digits(integer=3, fraction=2)
 	@Column(name="student_preis120")
-	private double student_preis120;
+	private double studentPreis120;
 	
 	@Column(name="student_abrechnung")
-	private int student_abrechnung;
+	private int studentAbrechnung;
 	
 	@Column(name="student_kredit")
 	@Digits(integer=3, fraction=2)
-	private double student_kredit;
+	private double studentKredit;
 
 	@Column(name="student_aktiv")
-	private int student_aktiv;
+	private int studentAktiv;
 	
 	@Column(name="student_quelle")
-	private String student_quelle;
+	private String studentQuelle;
 	
 	@Column(name="student_komm")
-	private String student_komm;
+	private String studentKomm;
 	
 	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 	@Column(name="created_at", updatable= false)
-	private Date created_At;
+	private Date createdAt;
 	
 	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 	@Column(name="updated_at")
-	private Date updated_At;
+	private Date updatedAt;
 	
 	//OneToOne with Agentur
 	@ManyToOne(fetch = FetchType.LAZY,cascade= {CascadeType.PERSIST, CascadeType.MERGE,
 			 CascadeType.DETACH, CascadeType.REFRESH})
 	@JoinColumn(name="student_agentur", nullable = true)
-	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "agentur_index")
+	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "agenturIndex")
     @JsonIdentityReference(alwaysAsId = true)
-    @JsonProperty("agentur_index")
+    @JsonProperty("agenturIndex")
 	private Agentur agentur;
 
 	//OneToMany with Lektion
@@ -192,12 +192,12 @@ public class Student {
 	
 	@PrePersist
 	protected void onCreate() {
-		this.created_At = new Date();			
+		this.createdAt = new Date();			
 	}
 	
 	@PreUpdate
 	protected void onUpdate() {
-		this.updated_At = new Date();	
+		this.updatedAt = new Date();	
 	}
 	
 	public Agentur getAgentur() {
@@ -208,154 +208,155 @@ public class Student {
 		this.agentur = agentur;
 	}
 
-	public Date getCreated_At() {
-		return created_At;
-	}
-
-	public void setCreated_At(Date created_At) {
-		this.created_At = created_At;
-	}
-
-	public Date getUpdated_At() {
-		return updated_At;
-	}
-
-	public void setUpdated_At(Date updated_At) {
-		this.updated_At = updated_At;
-	}
-
+	
 	public Student() {	
 			
 	}
 
-	public Long getStudent_index() {
-		return student_index;
+	public Long getStudentIndex() {
+		return studentIndex;
 	}
 
-	public void setStudent_index(Long student_index) {
-		this.student_index = student_index;
+	public void setStudentIndex(Long studentIndex) {
+		this.studentIndex = studentIndex;
 	}
 
-	public String getStudent_nachname() {
-		return student_nachname;
+	public String getStudentNachname() {
+		return studentNachname;
 	}
 
-	public void setStudent_nachname(String student_nachname) {
-		this.student_nachname = student_nachname;
+	public void setStudentNachname(String studentNachname) {
+		this.studentNachname = studentNachname;
 	}
 
-	public String getStudent_vorname() {
-		return student_vorname;
+	public String getStudentVorname() {
+		return studentVorname;
 	}
 
-	public void setStudent_vorname(String student_vorname) {
-		this.student_vorname = student_vorname;
+	public void setStudentVorname(String studentVorname) {
+		this.studentVorname = studentVorname;
 	}
 
-	public String getStudent_sortierung() {
-		return student_sortierung;
+	public String getStudentSortierung() {
+		return studentSortierung;
 	}
 
-	public void setStudent_sortierung(String student_sortierung) {
-		this.student_sortierung = student_sortierung;
+	public void setStudentSortierung(String studentSortierung) {
+		this.studentSortierung = studentSortierung;
 	}
 
-	public Date getStudent_gebdat() {
-		return student_gebdat;
+	public Date getStudentGebdat() {
+		return studentGebdat;
 	}
 
-	public void setStudent_gebdat(Date student_gebdat) {
-		this.student_gebdat = student_gebdat;
+	public void setStudentGebdat(Date studentGebdat) {
+		this.studentGebdat = studentGebdat;
 	}
 
-	public Date getStudent_ersttermin() {
-		return student_ersttermin;
+	public Date getStudentErsttermin() {
+		return studentErsttermin;
 	}
 
-	public void setStudent_ersttermin(Date student_ersttermin) {
-		this.student_ersttermin = student_ersttermin;
+	public void setStudentErsttermin(Date studentErsttermin) {
+		this.studentErsttermin = studentErsttermin;
 	}
 
-	public Date getStudent_letztermin() {
-		return student_letztermin;
+	public Date getStudentLetztermin() {
+		return studentLetztermin;
 	}
 
-	public void setStudent_letztermin(Date student_letztermin) {
-		this.student_letztermin = student_letztermin;
+	public void setStudentLetztermin(Date studentLetztermin) {
+		this.studentLetztermin = studentLetztermin;
 	}
 
-	public double getStudent_preis45() {
-		return student_preis45;
+	public double getStudentPreis45() {
+		return studentPreis45;
 	}
 
-	public void setStudent_preis45(double student_preis45) {
-		this.student_preis45 = student_preis45;
+	public void setStudentPreis45(double studentPreis45) {
+		this.studentPreis45 = studentPreis45;
 	}
 
-	public double getStudent_preis60() {
-		return student_preis60;
+	public double getStudentPreis60() {
+		return studentPreis60;
 	}
 
-	public void setStudent_preis60(double student_preis60) {
-		this.student_preis60 = student_preis60;
+	public void setStudentPreis60(double studentPreis60) {
+		this.studentPreis60 = studentPreis60;
 	}
 
-	public double getStudent_preis90() {
-		return student_preis90;
+	public double getStudentPreis90() {
+		return studentPreis90;
 	}
 
-	public void setStudent_preis90(double student_preis90) {
-		this.student_preis90 = student_preis90;
+	public void setStudentPreis90(double studentPreis90) {
+		this.studentPreis90 = studentPreis90;
 	}
 
-	public double getStudent_preis120() {
-		return student_preis120;
+	public double getStudentPreis120() {
+		return studentPreis120;
 	}
 
-	public void setStudent_preis120(double student_preis120) {
-		this.student_preis120 = student_preis120;
+	public void setStudentPreis120(double studentPreis120) {
+		this.studentPreis120 = studentPreis120;
 	}
 
-	public int getStudent_abrechnung() {
-		return student_abrechnung;
+	public int getStudentAbrechnung() {
+		return studentAbrechnung;
 	}
 
-	public void setStudent_abrechnung(int student_abrechnung) {
-		this.student_abrechnung = student_abrechnung;
+	public void setStudentAbrechnung(int studentAbrechnung) {
+		this.studentAbrechnung = studentAbrechnung;
 	}
 
-	public double getStudent_kredit() {
-		return student_kredit;
+	public double getStudentKredit() {
+		return studentKredit;
 	}
 
-	public void setStudent_kredit(double student_kredit) {
-		this.student_kredit = student_kredit;
+	public void setStudentKredit(double studentKredit) {
+		this.studentKredit = studentKredit;
 	}
 
-	public int getStudent_aktiv() {
-		return student_aktiv;
+	public String getStudentQuelle() {
+		return studentQuelle;
 	}
 
-	public void setStudent_aktiv(int student_aktiv) {
-		this.student_aktiv = student_aktiv;
+	public void setStudentQuelle(String studentQuelle) {
+		this.studentQuelle = studentQuelle;
 	}
 
-	public String getStudent_quelle() {
-		return student_quelle;
+	public String getStudentKomm() {
+		return studentKomm;
 	}
 
-	public void setStudent_quelle(String student_quelle) {
-		this.student_quelle = student_quelle;
+	public void setStudentKomm(String studentKomm) {
+		this.studentKomm = studentKomm;
 	}
 
-	public String getStudent_komm() {
-		return student_komm;
+	public Date getCreatedAt() {
+		return createdAt;
 	}
 
-	public void setStudent_komm(String student_komm) {
-		this.student_komm = student_komm;
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
-	
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	public int getStudentAktiv() {
+		return studentAktiv;
+	}
+
+	public void setStudentAktiv(int studentAktiv) {
+		this.studentAktiv = studentAktiv;
+	}
+
 	public static Student fromId(Long student_index) {
 		
 		if (student_index == null) {
@@ -363,13 +364,13 @@ public class Student {
 		}
 		
 		Student student = new Student();
-		student.student_index = student_index;
+		student.studentIndex = student_index;
 	    return student;
 	}
 	
-	@JsonProperty("agentur_index")
-    public void setAgenturById(Long agentur_index) {
-        agentur = Agentur.fromId(agentur_index);
+	@JsonProperty("agenturIndex")
+    public void setAgenturById(Long agenturIndex) {
+        agentur = Agentur.fromId(agenturIndex);
     }
 	
 }

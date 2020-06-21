@@ -29,65 +29,65 @@ public class Rechnung {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="rechn_index")
-	private Long rechn_index;
+	private Long rechnIndex;
 	
 	@Column(name="rechn_typ")
-	private int rechn_typ;
+	private int rechnTyp;
 
 	@NotBlank(message="Bitte tragen Sie Rechn_Name ein.")
 	@Column(name="rechn_name")
-	private String rechn_name;
+	private String rechnName;
 	
 	@NotBlank(message="Bitte tragen Sie Rechn_Zusatz. ein.")
 	@Column(name="rechn_zusatz")
-	private String rechn_zusatz;
+	private String rechnZusatz;
 	
 	@NotBlank(message="Bitte tragen Sie Rechn_Str. ein.")
 	@Column(name="rechn_str")
-	private String rechn_str;
+	private String rechnStr;
 	
 	@NotBlank(message="Bitte tragen Sie Rechn_PLZ ein.")
 	@Column(name="rechn_plz")
-	private String rechn_plz;
+	private String rechnPlz;
 	
 	@NotBlank(message="Bitte tragen Sie Rechn_Ort ein.")
 	@Column(name="rechn_ort")
-	private String rechn_ort;
+	private String rechnOrt;
 	
 	@NotBlank(message="Bitte tragen Sie Rechn_Land ein.")
 	@Column(name="rechn_land")
-	private String rechn_land;
+	private String rechnLand;
 	
 	@Column(name="rechn_ico")
-	private int rechn_ico;
+	private int rechnIco;
 	
 	@Column(name="rechn_dic")
-	private int rechn_dic;
+	private int rechnDic;
 
 	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 	@Column(name="created_at", updatable= false)
-	private Date created_At;
+	private Date createdAt;
 	
 	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 	@Column(name="updated_at")
-	private Date updated_At;
+	private Date updatedAt;
 	
 	//ManytoOne with Agentur
 	@ManyToOne(fetch = FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.MERGE,
 			 CascadeType.DETACH, CascadeType.REFRESH})
 	@JoinColumn(name="rechn_agentur", nullable = true)
-	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "agentur_index")
+	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "agenturIndex")
     @JsonIdentityReference(alwaysAsId = true)
-    @JsonProperty("agentur_index")
+    @JsonProperty("agenturIndex")
 	private Agentur agentur;
 	
 	//ManytoOne with Student
 	@ManyToOne(fetch = FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.MERGE,
 			 CascadeType.DETACH, CascadeType.REFRESH})
 	@JoinColumn(name="rechn_student", nullable = true)
-	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "student_index")
+	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "studentIndex")
     @JsonIdentityReference(alwaysAsId = true)
-    @JsonProperty("student_index")
+    @JsonProperty("studentIndex")
 	private Student student;
 	
 	public Rechnung() {
@@ -106,108 +106,12 @@ public class Rechnung {
 	
 	@PrePersist
 	protected void onCreate() {
-		this.created_At = new Date();			
+		this.createdAt = new Date();			
 	}
 	
 	@PreUpdate
 	protected void onUpdate() {
-		this.updated_At = new Date();	
-	}
-
-	public Long getRechn_index() {
-		return rechn_index;
-	}
-
-	public void setRechn_index(Long rechn_index) {
-		this.rechn_index = rechn_index;
-	}
-
-	public int getRechn_typ() {
-		return rechn_typ;
-	}
-
-	public void setRechn_typ(int rechn_typ) {
-		this.rechn_typ = rechn_typ;
-	}
-
-	public String getRechn_name() {
-		return rechn_name;
-	}
-
-	public void setRechn_name(String rechn_name) {
-		this.rechn_name = rechn_name;
-	}
-
-	public String getRechn_zusatz() {
-		return rechn_zusatz;
-	}
-
-	public void setRechn_zusatz(String rechn_zusatz) {
-		this.rechn_zusatz = rechn_zusatz;
-	}
-
-	public String getRechn_str() {
-		return rechn_str;
-	}
-
-	public void setRechn_str(String rechn_str) {
-		this.rechn_str = rechn_str;
-	}
-
-	public String getRechn_plz() {
-		return rechn_plz;
-	}
-
-	public void setRechn_plz(String rechn_plz) {
-		this.rechn_plz = rechn_plz;
-	}
-
-	public String getRechn_ort() {
-		return rechn_ort;
-	}
-
-	public void setRechn_ort(String rechn_ort) {
-		this.rechn_ort = rechn_ort;
-	}
-
-	public String getRechn_land() {
-		return rechn_land;
-	}
-
-	public void setRechn_land(String rechn_land) {
-		this.rechn_land = rechn_land;
-	}
-
-	public int getRechn_ico() {
-		return rechn_ico;
-	}
-
-	public void setRechn_ico(int rechn_ico) {
-		this.rechn_ico = rechn_ico;
-	}
-
-	public int getRechn_dic() {
-		return rechn_dic;
-	}
-
-	public void setRechn_dic(int rechn_dic) {
-		this.rechn_dic = rechn_dic;
-	}
-
-	public Date getCreated_At() {
-		return created_At;
-	}
-
-	public void setCreated_At(Date created_At) {
-		this.created_At = created_At;
-	}
-
-	public Date getUpdated_At() {
-		return updated_At;
-	}
-
-	public void setUpdated_At(Date updated_At) {
-		this.updated_At = updated_At;
+		this.updatedAt = new Date();	
 	}
 
 	public Agentur getAgentur() {
@@ -232,17 +136,114 @@ public class Rechnung {
 			return null;
 		}
 		Rechnung rechnung = new Rechnung();
-		rechnung.rechn_index = rechnung_index;
+		rechnung.rechnIndex = rechnung_index;
 	    return rechnung;
 	}
 	
-	@JsonProperty("student_index")
-    public void setStudentById(Long student_index) {
-        student = Student.fromId(student_index);
+	
+	public Long getRechnIndex() {
+		return rechnIndex;
+	}
+
+	public void setRechnIndex(Long rechnIndex) {
+		this.rechnIndex = rechnIndex;
+	}
+
+	public int getRechnTyp() {
+		return rechnTyp;
+	}
+
+	public void setRechnTyp(int rechnTyp) {
+		this.rechnTyp = rechnTyp;
+	}
+
+	public String getRechnName() {
+		return rechnName;
+	}
+
+	public void setRechnName(String rechnName) {
+		this.rechnName = rechnName;
+	}
+
+	public String getRechnZusatz() {
+		return rechnZusatz;
+	}
+
+	public void setRechnZusatz(String rechnZusatz) {
+		this.rechnZusatz = rechnZusatz;
+	}
+
+	public String getRechnStr() {
+		return rechnStr;
+	}
+
+	public void setRechnStr(String rechnStr) {
+		this.rechnStr = rechnStr;
+	}
+
+	public String getRechnPlz() {
+		return rechnPlz;
+	}
+
+	public void setRechnPlz(String rechnPlz) {
+		this.rechnPlz = rechnPlz;
+	}
+
+	public String getRechnOrt() {
+		return rechnOrt;
+	}
+
+	public void setRechnOrt(String rechnOrt) {
+		this.rechnOrt = rechnOrt;
+	}
+
+	public String getRechnLand() {
+		return rechnLand;
+	}
+
+	public void setRechnLand(String rechnLand) {
+		this.rechnLand = rechnLand;
+	}
+
+	public int getRechnIco() {
+		return rechnIco;
+	}
+
+	public void setRechnIco(int rechnIco) {
+		this.rechnIco = rechnIco;
+	}
+
+	public int getRechnDic() {
+		return rechnDic;
+	}
+
+	public void setRechnDic(int rechnDic) {
+		this.rechnDic = rechnDic;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	@JsonProperty("studentIndex")
+    public void setStudentById(Long studentIndex) {
+        student = Student.fromId(studentIndex);
     }
 	
-	@JsonProperty("agentur_index")
-    public void setAgenturById(Long agentur_index) {
-        agentur = Agentur.fromId(agentur_index);
+	@JsonProperty("agenturIndex")
+    public void setAgenturById(Long agenturIndex) {
+        agentur = Agentur.fromId(agenturIndex);
     }
 }

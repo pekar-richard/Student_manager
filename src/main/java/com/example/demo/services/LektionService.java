@@ -3,6 +3,7 @@ package com.example.demo.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.domain.Agentur;
@@ -30,9 +31,9 @@ public class LektionService {
 	@Autowired
 	private ZahlungRepository zahlungRepository;
 	
-	public Iterable<Lektion> findAllLektions(){
+	public Iterable<Lektion> findAllLektions(Sort sort){
 		
-		return lektionRepository.findAll();		
+		return lektionRepository.findAll(sort);		
 		
 	}
 	
@@ -63,7 +64,7 @@ public class LektionService {
 		}
 		
 		if (theAgentur != null) {
-			theagenturFromDb = agenturRepository.findAgenturByID(theAgentur.getAgentur_index());
+			theagenturFromDb = agenturRepository.findAgenturByID(theAgentur.getAgenturIndex());
 		}
 		
 		if( theagenturFromDb!= null) {
@@ -71,25 +72,25 @@ public class LektionService {
 		}
 		
 		if (theStudent != null) {
-			thestudentFromDb = studentRepository.findStudentByID(theStudent.getStudent_index());
+			thestudentFromDb = studentRepository.findStudentByID(theStudent.getStudentIndex());
 		}
 		
 		if( thestudentFromDb!= null) {
 			
 			
-			if(thestudentFromDb.getStudent_ersttermin()== null) {
-				thestudentFromDb.setStudent_ersttermin(lektion.getLektion_datum());	
+			if(thestudentFromDb.getStudentErsttermin()== null) {
+				thestudentFromDb.setStudentErsttermin(lektion.getLektionDatum());	
 				
 			}
 			
-			thestudentFromDb.setStudent_letztermin(lektion.getLektion_datum());
+			thestudentFromDb.setStudentLetztermin(lektion.getLektionDatum());
 			thestudentFromDb.addLektion(lektion);
 		}
 				
-		if(lektion.getLektion_index() != null) {
-			Lektion theLektion = lektionRepository.findLektionByID(lektion.getLektion_index());
+		if(lektion.getLektionIndex() != null) {
+			Lektion theLektion = lektionRepository.findLektionByID(lektion.getLektionIndex());
 				if(theLektion == null) {	
-						throw new LektionNotFoundException("Die Lektion ID: '"+ lektion.getLektion_index() + "'ist nicht vorhanden.");
+						throw new LektionNotFoundException("Die Lektion ID: '"+ lektion.getLektionIndex() + "'ist nicht vorhanden.");
 					}
 				}	
 		
@@ -98,7 +99,7 @@ public class LektionService {
 		} catch (LektionNotFoundException e){			
 			throw e;
 		} catch (Exception e){			
-			throw new LektionNotFoundException("Der Student ID: '"+ lektion.getStudent().getStudent_index() + "' oder Die Agentur ID: '"+ lektion.getAgentur().getAgentur_index() + "' is nicht vorhanden.");
+			throw new LektionNotFoundException("Der Student ID: '"+ lektion.getStudent().getStudentIndex() + "' oder Die Agentur ID: '"+ lektion.getAgentur().getAgenturIndex() + "' is nicht vorhanden.");
 		}
 
 	}
@@ -112,7 +113,7 @@ public class LektionService {
 		throw new LektionNotFoundException("Die Lektion ID: '"+ lektion_id + "'ist nicht vorhanden.");
 	}
 
-	theLektion.getStudent().setStudent_kredit(theLektion.getStudent().getStudent_kredit()+theLektion.getLektion_preis());
+	theLektion.getStudent().setStudentKredit(theLektion.getStudent().getStudentKredit()+theLektion.getLektionPreis());
 	theLektion.removeAgentur();
 	theLektion.removeStudent(); 
 	lektionRepository.delete(theLektion);

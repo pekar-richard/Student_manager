@@ -51,7 +51,7 @@ public class RechnungService {
 			throw new RechnungNotFoundException("Der Student ID: '"+ student_id + "' oder Die Agentur ID: '" + agentur_id + "' is nicht vorhanden.");
 		}
 		
-		if(rechnung.getRechn_index() == null) {
+		if(rechnung.getRechnIndex() == null) {
 		 
 			
 			if( theAgentur!= null) {
@@ -68,10 +68,10 @@ public class RechnungService {
 			return rechnungRepository.save(rechnung);
 			
 		}else {
-				Rechnung theRechnung = rechnungRepository.findRechnungByID(rechnung.getRechn_index());
+				Rechnung theRechnung = rechnungRepository.findRechnungByID(rechnung.getRechnIndex());
 				
 				if(theRechnung == null  ) {	
-					throw new RechnungNotFoundException("Die Rechnung ID: '"+ rechnung.getRechn_index() + "'ist nicht vorhanden.");
+					throw new RechnungNotFoundException("Die Rechnung ID: '"+ rechnung.getRechnIndex() + "'ist nicht vorhanden.");
 			}
 			
 				Agentur theagentur = agenturRepository.findAgenturByID(agentur_id);

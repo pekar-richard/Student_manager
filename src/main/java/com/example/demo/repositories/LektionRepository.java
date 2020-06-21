@@ -3,6 +3,7 @@ package com.example.demo.repositories;
 
 import java.util.List;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -13,8 +14,7 @@ import com.example.demo.domain.Lektion;
 @Repository
 public interface LektionRepository extends CrudRepository<Lektion,Long>{
 	
-	@Override
-	Iterable<Lektion> findAll();
+	Iterable<Lektion> findAll(Sort sort);
 	
 	@Query("from Lektion where lektion_index=:Lektion_index")  
 	public Lektion findLektionByID(@Param("Lektion_index") long u);

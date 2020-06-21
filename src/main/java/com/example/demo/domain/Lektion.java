@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -28,58 +29,60 @@ public class Lektion {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="lektion_index")
-	private Long lektion_index;
+	private Long lektionIndex;
 	
 	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 	@Column(name="lektion_datum")
-	private Date lektion_datum;
+	private Date lektionDatum;
 	
 	@Column(name="lektion_min")
-	private int lektion_min;
+	private int lektionMin;
 	
+	@Digits(integer=3, fraction=2)
 	@Column(name="lektion_preis")
-	private double lektion_preis;
+	private double lektionPreis;
 	
 	@Column(name="lektion_art")
-	private int lektion_art;
+	private int lektionArt;
 	
 	@Column(name="lektion_status")
-	private int lektion_status;
+	private int lektionStatus;
 	
 	@Column(name="lektion_abrechnung")
-	private int lektion_abrechnung;
+	private int lektionAbrechnung;
 	
+	@Digits(integer=8,fraction=0)
 	@Column(name="lektion_rgnr")
-	private int lektion_rgnr;
+	private int lektionRgnr;
 	
 	@JsonFormat(pattern="yyyy-MM-dd")
 	@Column(name="lektion_bezahlt")
-	private Date lektion_bezahlt;
+	private Date lektionBezahlt;
 	
 	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 	@Column(name="created_at", updatable= false)
-	private Date created_At;
+	private Date createdAt;
 	
 	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 	@Column(name="updated_at")
-	private Date updated_At;
+	private Date updatedAt;
 	
 	//ManytoOne with Agentur
 	@ManyToOne(fetch = FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.MERGE,
 			 CascadeType.DETACH, CascadeType.REFRESH})
 	@JoinColumn(name="lektion_agentur", nullable = true)
-	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "agentur_index")
+	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "agenturIndex")
     @JsonIdentityReference(alwaysAsId = true)
-    @JsonProperty("agentur_index")
+    @JsonProperty("agenturIndex")
 	private Agentur agentur;
 	
 	//ManytoOne with Student
 	@ManyToOne(fetch = FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.MERGE,
 			 CascadeType.DETACH, CascadeType.REFRESH})
 	@JoinColumn(name="lektion_student", nullable = true)
-	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "student_index")
+	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "studentIndex")
     @JsonIdentityReference(alwaysAsId = true)
-    @JsonProperty("student_index")
+    @JsonProperty("studentIndex")
 	private Student student;
 	
 	public Lektion() {
@@ -98,100 +101,12 @@ public class Lektion {
 	
 	@PrePersist
 	protected void onCreate() {
-		this.created_At = new Date();			
+		this.createdAt = new Date();			
 	}
 	
 	@PreUpdate
 	protected void onUpdate() {
-		this.updated_At = new Date();	
-	}
-
-	public Long getLektion_index() {
-		return lektion_index;
-	}
-
-	public void setLektion_index(Long lektion_index) {
-		this.lektion_index = lektion_index;
-	}
-
-	public Date getLektion_datum() {
-		return lektion_datum;
-	}
-
-	public void setLektion_datum(Date lektion_datum) {
-		this.lektion_datum = lektion_datum;
-	}
-
-	public int getLektion_min() {
-		return lektion_min;
-	}
-
-	public void setLektion_min(int lektion_min) {
-		this.lektion_min = lektion_min;
-	}
-
-	public double getLektion_preis() {
-		return lektion_preis;
-	}
-
-	public void setLektion_preis(double lektion_preis) {
-		this.lektion_preis = lektion_preis;
-	}
-
-	public int getLektion_art() {
-		return lektion_art;
-	}
-
-	public void setLektion_art(int lektion_art) {
-		this.lektion_art = lektion_art;
-	}
-
-	public int getLektion_status() {
-		return lektion_status;
-	}
-
-	public void setLektion_status(int lektion_status) {
-		this.lektion_status = lektion_status;
-	}
-
-	public int getLektion_abrechnung() {
-		return lektion_abrechnung;
-	}
-
-	public void setLektion_abrechnung(int lektion_abrechnung) {
-		this.lektion_abrechnung = lektion_abrechnung;
-	}
-
-	public int getLektion_rgnr() {
-		return lektion_rgnr;
-	}
-
-	public void setLektion_rgnr(int lektion_rgnr) {
-		this.lektion_rgnr = lektion_rgnr;
-	}
-
-	public Date getLektion_bezahlt() {
-		return lektion_bezahlt;
-	}
-
-	public void setLektion_bezahlt(Date lektion_bezahlt) {
-		this.lektion_bezahlt = lektion_bezahlt;
-	}
-
-	public Date getCreated_At() {
-		return created_At;
-	}
-
-	public void setCreated_At(Date created_At) {
-		this.created_At = created_At;
-	}
-
-	public Date getUpdated_At() {
-		return updated_At;
-	}
-
-	public void setUpdated_At(Date updated_At) {
-		this.updated_At = updated_At;
+		this.updatedAt = new Date();	
 	}
 
 	public Agentur getAgentur() {
@@ -216,17 +131,106 @@ public class Lektion {
 			return null;
 		}
 		Lektion lektion = new Lektion();
-		lektion.lektion_index = lektion_index;
+		lektion.lektionIndex = lektion_index;
 	    return lektion;
 	}
 	
-	@JsonProperty("student_index")
-    public void setStudentById(Long student_index) {
-        student = Student.fromId(student_index);
+	
+	public Long getLektionIndex() {
+		return lektionIndex;
+	}
+
+	public void setLektionIndex(Long lektionIndex) {
+		this.lektionIndex = lektionIndex;
+	}
+
+	public Date getLektionDatum() {
+		return lektionDatum;
+	}
+
+	public void setLektionDatum(Date lektionDatum) {
+		this.lektionDatum = lektionDatum;
+	}
+
+	public int getLektionMin() {
+		return lektionMin;
+	}
+
+	public void setLektionMin(int lektionMin) {
+		this.lektionMin = lektionMin;
+	}
+
+	public double getLektionPreis() {
+		return lektionPreis;
+	}
+
+	public void setLektionPreis(double lektionPreis) {
+		this.lektionPreis = lektionPreis;
+	}
+
+	public int getLektionArt() {
+		return lektionArt;
+	}
+
+	public void setLektionArt(int lektionArt) {
+		this.lektionArt = lektionArt;
+	}
+
+	public int getLektionStatus() {
+		return lektionStatus;
+	}
+
+	public void setLektionStatus(int lektionStatus) {
+		this.lektionStatus = lektionStatus;
+	}
+
+	public int getLektionAbrechnung() {
+		return lektionAbrechnung;
+	}
+
+	public void setLektionAbrechnung(int lektionAbrechnung) {
+		this.lektionAbrechnung = lektionAbrechnung;
+	}
+
+	public int getLektionRgnr() {
+		return lektionRgnr;
+	}
+
+	public void setLektionRgnr(int lektionRgnr) {
+		this.lektionRgnr = lektionRgnr;
+	}
+
+	public Date getLektionBezahlt() {
+		return lektionBezahlt;
+	}
+
+	public void setLektionBezahlt(Date lektionBezahlt) {
+		this.lektionBezahlt = lektionBezahlt;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	@JsonProperty("studentIndex")
+    public void setStudentById(Long studentIndex) {
+        student = Student.fromId(studentIndex);
     }
 	
-	@JsonProperty("agentur_index")
-    public void setAgenturById(Long agentur_index) {
-        agentur = Agentur.fromId(agentur_index);
+	@JsonProperty("agenturIndex")
+    public void setAgenturById(Long agenturIndex) {
+        agentur = Agentur.fromId(agenturIndex);
     }
 }

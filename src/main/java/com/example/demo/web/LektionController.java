@@ -3,6 +3,7 @@ package com.example.demo.web;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -32,10 +33,10 @@ public class LektionController {
 	private MapValidationErrorService mapValidationErrorService;
 	
 	@GetMapping("/alllektions")
-	public Iterable<Lektion> getAllLektions(){return lektionService.findAllLektions();}
+	public Iterable<Lektion> getAllLektions(){return lektionService.findAllLektions(Sort.by(Sort.Direction.DESC,"lektionIndex"));}
 
 	@GetMapping("/{lektion_id}")
-	public ResponseEntity<?> findLektionByID(@PathVariable long lektion_id){			
+	public ResponseEntity<?> findLektionByID(@PathVariable long lektion_id){	
 
 	Lektion theLektion = lektionService.findLektionByID(lektion_id);
 		

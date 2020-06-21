@@ -48,7 +48,7 @@ public class RechnungController {
 	ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
 	if(errorMap!=null) return errorMap;
 	
-	Rechnung theRechnung= rechnungService.saveOrUpdateRechnung(rechnung, rechnung.getStudent().getStudent_index(), rechnung.getAgentur().getAgentur_index());
+	Rechnung theRechnung= rechnungService.saveOrUpdateRechnung(rechnung, rechnung.getStudent().getStudentIndex(), rechnung.getAgentur().getAgenturIndex());
 		
 	return new ResponseEntity<Rechnung>(theRechnung, HttpStatus.CREATED);	
 	}
@@ -59,7 +59,7 @@ public class RechnungController {
 	ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
 	if(errorMap!=null) return errorMap;
 	
-	Rechnung theRechnung= rechnungService.saveOrUpdateRechnung(rechnung, rechnung.getStudent().getStudent_index(), rechnung.getAgentur().getAgentur_index());
+	Rechnung theRechnung= rechnungService.saveOrUpdateRechnung(rechnung, rechnung.getStudent().getStudentIndex(), rechnung.getAgentur().getAgenturIndex());
 		
 	return new ResponseEntity<Rechnung>(theRechnung, HttpStatus.CREATED);	
 	}

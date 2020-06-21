@@ -44,18 +44,16 @@ public class ZahlungService {
 	
 	try {	
 			
-		if(zahlung.getZahlung_index() == null) {
+		if(zahlung.getZahlungIndex() == null) {
 			
 			Student theStudent = studentRepository.findStudentByID(student_id);
 			
-			zahlung.setZahlung_betragubrig(zahlung.getZahlung_betrag());
-			if(zahlung.getZahlung_betrag()<0) {zahlung.setZahlung_betragubrig(0);}
-			if(theStudent.getStudent_kredit()<0){zahlung.setZahlung_betragubrig(zahlung.getZahlung_betragubrig()-Math.abs(theStudent.getStudent_kredit()));}
+			// Tu som zmazal zahlung Betragubrig!!!
 			
 			if( theStudent!= null) {
 				
 				theStudent.addZahlung(zahlung);
-				theStudent.setStudent_kredit(theStudent.getStudent_kredit()+zahlung.getZahlung_betrag());
+				theStudent.setStudentKredit(theStudent.getStudentKredit()+zahlung.getZahlungBetrag());
 				
 			}else {
 				
@@ -67,36 +65,25 @@ public class ZahlungService {
 		}else {
 		
 			Student theStudent = studentRepository.findStudentByID(student_id);
-			Zahlung theZahlung = zahlungRepository.findZahlungByID(zahlung.getZahlung_index());
+			Zahlung theZahlung = zahlungRepository.findZahlungByID(zahlung.getZahlungIndex());
 			
 				if(theZahlung == null) {	
-					throw new ZahlungNotFoundException("Die Zahlung ID:'"+ zahlung.getZahlung_index() + "'ist nicht vorhanden.");
+					throw new ZahlungNotFoundException("Die Zahlung ID:'"+ zahlung.getZahlungIndex() + "'ist nicht vorhanden.");
 				}
 
-				if(theZahlung.getZahlung_betrag() != theZahlung.getStudent().getStudent_kredit()){
+				if(theZahlung.getZahlungBetrag() != theZahlung.getStudent().getStudentKredit()){
 					
-					double theZahlungBetrag = theZahlung.getZahlung_betrag();
-					double theStudentKredit = theZahlung.getStudent().getStudent_kredit();
+					double theZahlungBetrag = theZahlung.getZahlungBetrag();
+					double theStudentKredit = theZahlung.getStudent().getStudentKredit();
 					
 					if(theZahlungBetrag<0) {
-						theZahlung.getStudent().setStudent_kredit(theStudentKredit+theZahlungBetrag);
-						zahlung.setZahlung_betragubrig(0);
+						theZahlung.getStudent().setStudentKredit(theStudentKredit+theZahlungBetrag);
+			
 					}
 					
-					if(theZahlungBetrag>0) {
-						theZahlung.getStudent().setStudent_kredit(theStudentKredit-theZahlungBetrag);
-						
-						if(zahlung.getZahlung_betrag()>theZahlungBetrag) {
-							
-							zahlung.setZahlung_betragubrig(zahlung.getZahlung_betragubrig()+(zahlung.getZahlung_betrag()-theZahlungBetrag));
-						}else {
-							
-							zahlung.setZahlung_betragubrig(zahlung.getZahlung_betragubrig()-(theZahlungBetrag-zahlung.getZahlung_betrag()));
-						}
-						
-					}
+					// Tu som zmazal zahlung Betragubrig!!!
 					
-					theZahlung.getStudent().setStudent_kredit(theStudentKredit-theZahlungBetrag);
+					theZahlung.getStudent().setStudentKredit(theStudentKredit-theZahlungBetrag);
 					
 				}
 				theStudent.addZahlung(zahlung);
@@ -107,7 +94,7 @@ public class ZahlungService {
 	}catch (ZahlungNotFoundException e){			
 		throw e;
 		}catch (Exception e){			
-		throw new ZahlungNotFoundException("Die Zahlung ID: '"+ zahlung.getZahlung_index() + "' oder Der Student ID: '"+ student_id + "' ist nicht vorhanden.");
+		throw new ZahlungNotFoundException("Die Zahlung ID: '"+ zahlung.getZahlungIndex() + "' oder Der Student ID: '"+ student_id + "' ist nicht vorhanden.");
 	}
 
 	}
@@ -123,8 +110,8 @@ public class ZahlungService {
 		throw new ZahlungNotFoundException("Die Zahlung ID:'"+ zahlung_id + "'ist nicht vorhanden.");
 	}
 	
-	double theZahlungBetrag = theZahlung.getZahlung_betrag();
-	theZahlung.getStudent().setStudent_kredit(theZahlung.getStudent().getStudent_kredit()-theZahlungBetrag);
+	double theZahlungBetrag = theZahlung.getZahlungBetrag();
+	theZahlung.getStudent().setStudentKredit(theZahlung.getStudent().getStudentKredit()-theZahlungBetrag);
 	
 	theZahlung.removeStudent();
 	zahlungRepository.delete(theZahlung);
