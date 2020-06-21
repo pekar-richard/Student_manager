@@ -1,5 +1,8 @@
 package com.example.demo.services;
 
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,15 +81,58 @@ public class LektionService {
 		if( thestudentFromDb!= null) {
 			
 			
+			if(lektion.getLektionAbrechnung()==2) {
+				
+				if(lektion.getLektionIndex() != null) {
+					
+					Lektion theLektion = lektionRepository.findLektionByID(lektion.getLektionIndex());
+					
+					if(theLektion.getLektionPreis() != lektion.getLektionPreis()) {
+						
+						thestudentFromDb.setStudentKredit((thestudentFromDb.getStudentKredit()+theLektion.getLektionPreis())-lektion.getLektionPreis());
+					}					
+					
+				}else {
+								
+						thestudentFromDb.setStudentKredit(thestudentFromDb.getStudentKredit()-lektion.getLektionPreis());
+				}
+						
+			}
+
 			if(thestudentFromDb.getStudentErsttermin()== null) {
 				thestudentFromDb.setStudentErsttermin(lektion.getLektionDatum());	
 				
 			}
 			
-			thestudentFromDb.setStudentLetztermin(lektion.getLektionDatum());
+	
+			List<Lektion> allLektionsByStudentID = lektionRepository.findLektionByStudentID(theStudent.getStudentIndex());
+		
+			 //Sorting
+			 allLektionsByStudentID.sort(new Comparator<Lektion>() {
+			     @Override
+			     public int compare(Lektion lektionA, Lektion lektionB) {
+			         if (lektionA.getLektionDatum().getTime() < lektionB.getLektionDatum().getTime())
+			             return -1;
+			         else if (lektionA.getLektionDatum().getTime() == lektionB.getLektionDatum().getTime())
+			             return 0;
+			         else
+			             return 1;
+			     }
+			 });
+			 
+			 
+
+			 if(lektion.getLektionDatum().getTime() >= allLektionsByStudentID.get(allLektionsByStudentID.size()-1).getLektionDatum().getTime()){
+				 thestudentFromDb.setStudentLetztermin(lektion.getLektionDatum());	           
+			 }else {
+				 thestudentFromDb.setStudentLetztermin(allLektionsByStudentID.get(allLektionsByStudentID.size()-1).getLektionDatum());
+			 }
+			 
+			
 			thestudentFromDb.addLektion(lektion);
-		}
-				
+		
+		}	
+		
 		if(lektion.getLektionIndex() != null) {
 			Lektion theLektion = lektionRepository.findLektionByID(lektion.getLektionIndex());
 				if(theLektion == null) {	
