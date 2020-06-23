@@ -33,7 +33,8 @@ public class StudentController {
 	private MapValidationErrorService mapValidationErrorService;
 	
 	@GetMapping("/allstudents")
-	public Iterable<Student> getAllStudents(){return studentService.findAllStudents(Sort.by(Sort.Direction.DESC,"studentIndex"));}
+	public Iterable<Student> getAllStudents(){return studentService.findAllStudents(Sort.by("studentAktiv").ascending());}
+	
 	
 	@GetMapping("/{student_id}")
 	public ResponseEntity<?> findStudentByID(@PathVariable long student_id){			

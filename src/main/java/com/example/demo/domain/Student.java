@@ -166,30 +166,6 @@ public class Student {
 	}
 	
 	
-	public List<Rechnung> getRechnungs() {
-		return rechnungs;
-	}
-
-	public void setRechnungs(List<Rechnung> rechnungs) {
-		this.rechnungs = rechnungs;
-	}
-	
-	public List<Zahlung> getZahlungs() {
-		return zahlungs;
-	}
-
-	public void setZahlungs(List<Zahlung> zahlungs) {
-		this.zahlungs = zahlungs;
-	}
-
-	public List<Lektion> getLektions() {
-		return lektions;
-	}
-
-	public void setLektions(List<Lektion> lektions) {
-		this.lektions = lektions;
-	}
-	
 	@PrePersist
 	protected void onCreate() {
 		this.createdAt = new Date();			

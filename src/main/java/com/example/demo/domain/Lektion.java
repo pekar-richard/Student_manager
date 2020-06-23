@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -19,6 +20,7 @@ import javax.validation.constraints.Digits;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -48,17 +50,6 @@ public class Lektion {
 	@Column(name="lektion_status")
 	private int lektionStatus;
 	
-	@Column(name="lektion_abrechnung")
-	private int lektionAbrechnung;
-	
-	@Digits(integer=8,fraction=0)
-	@Column(name="lektion_rgnr")
-	private int lektionRgnr;
-	
-	@JsonFormat(pattern="yyyy-MM-dd")
-	@Column(name="lektion_bezahlt")
-	private Date lektionBezahlt;
-	
 	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 	@Column(name="created_at", updatable= false)
 	private Date createdAt;
@@ -66,6 +57,11 @@ public class Lektion {
 	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 	@Column(name="updated_at")
 	private Date updatedAt;
+	
+	//OneToOne with Zahlung
+	@OneToOne(fetch = FetchType.LAZY,  mappedBy="lektion",  cascade= {CascadeType.PERSIST,
+			 CascadeType.DETACH, CascadeType.REFRESH, CascadeType.REMOVE})
+	private Zahlung zahlung;
 	
 	//ManytoOne with Agentur
 	@ManyToOne(fetch = FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.MERGE,
@@ -85,6 +81,7 @@ public class Lektion {
     @JsonProperty("studentIndex")
 	private Student student;
 	
+	 
 	public Lektion() {
 		
 	}
@@ -94,9 +91,15 @@ public class Lektion {
 		this.agentur=null;
 	}
 	
+	
 	public void removeStudent() {	
 		
 		this.student=null;
+	}
+	
+	public void removeZahlung() {	
+		
+		this.zahlung=null;
 	}
 	
 	@PrePersist
@@ -124,17 +127,6 @@ public class Lektion {
 	public void setStudent(Student student) {
 		this.student = student;
 	}
-	
-	public static Lektion fromId(Long lektion_index) {
-		
-		if (lektion_index == null) {
-			return null;
-		}
-		Lektion lektion = new Lektion();
-		lektion.lektionIndex = lektion_index;
-	    return lektion;
-	}
-	
 	
 	public Long getLektionIndex() {
 		return lektionIndex;
@@ -184,30 +176,6 @@ public class Lektion {
 		this.lektionStatus = lektionStatus;
 	}
 
-	public int getLektionAbrechnung() {
-		return lektionAbrechnung;
-	}
-
-	public void setLektionAbrechnung(int lektionAbrechnung) {
-		this.lektionAbrechnung = lektionAbrechnung;
-	}
-
-	public int getLektionRgnr() {
-		return lektionRgnr;
-	}
-
-	public void setLektionRgnr(int lektionRgnr) {
-		this.lektionRgnr = lektionRgnr;
-	}
-
-	public Date getLektionBezahlt() {
-		return lektionBezahlt;
-	}
-
-	public void setLektionBezahlt(Date lektionBezahlt) {
-		this.lektionBezahlt = lektionBezahlt;
-	}
-
 	public Date getCreatedAt() {
 		return createdAt;
 	}
@@ -224,6 +192,14 @@ public class Lektion {
 		this.updatedAt = updatedAt;
 	}
 
+	public Zahlung getZahlung() {
+		return zahlung;
+	}
+
+	public void setZahlung(Zahlung zahlung) {
+		this.zahlung = zahlung;
+	}
+
 	@JsonProperty("studentIndex")
     public void setStudentById(Long studentIndex) {
         student = Student.fromId(studentIndex);
@@ -233,4 +209,15 @@ public class Lektion {
     public void setAgenturById(Long agenturIndex) {
         agentur = Agentur.fromId(agenturIndex);
     }
+	
+	public static Lektion fromId(Long lektion_index) {
+		
+		if (lektion_index == null) {
+			return null;
+		}
+		Lektion lektion = new Lektion();
+		lektion.lektionIndex = lektion_index;
+	    return lektion;
+	}
+	
 }

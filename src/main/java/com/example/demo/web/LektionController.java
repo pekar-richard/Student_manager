@@ -33,7 +33,7 @@ public class LektionController {
 	private MapValidationErrorService mapValidationErrorService;
 	
 	@GetMapping("/alllektions")
-	public Iterable<Lektion> getAllLektions(){return lektionService.findAllLektions(Sort.by(Sort.Direction.DESC,"lektionIndex"));}
+	public Iterable<Lektion> getAllLektions(){return lektionService.findAllLektions(Sort.by(Sort.Direction.DESC,"lektionDatum"));}
 
 	@GetMapping("/{lektion_id}")
 	public ResponseEntity<?> findLektionByID(@PathVariable long lektion_id){	
@@ -46,23 +46,23 @@ public class LektionController {
 	@PostMapping("/")
 	public ResponseEntity<?> createNewLektion(@Valid @RequestBody Lektion lektion, BindingResult result){			
 
-	ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
-	if(errorMap!=null) return errorMap;
-	
-	Lektion theLektion= lektionService.saveOrUpdateLektion(lektion);
+		ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
+		if(errorMap!=null) return errorMap;
 		
-	return new ResponseEntity<Lektion>(theLektion, HttpStatus.CREATED);	
+		Lektion theLektion= lektionService.saveOrUpdateLektion(lektion);
+			
+		return new ResponseEntity<Lektion>(theLektion, HttpStatus.CREATED);	
 	}
 	
 	@PutMapping("/{lektion_id}")
 	public ResponseEntity<?> updateLektion(@Valid @RequestBody Lektion lektion, BindingResult result, @PathVariable long lektion_id){			
 
-	ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
-	if(errorMap!=null) return errorMap;
-	
-	Lektion theLektion= lektionService.saveOrUpdateLektion(lektion);
+		ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
+		if(errorMap!=null) return errorMap;
 		
-	return new ResponseEntity<Lektion>(theLektion, HttpStatus.CREATED);
+		Lektion theLektion= lektionService.saveOrUpdateLektion(lektion);
+			
+		return new ResponseEntity<Lektion>(theLektion, HttpStatus.CREATED);
 	}
 	
 	@DeleteMapping("/{lektion_id}")	

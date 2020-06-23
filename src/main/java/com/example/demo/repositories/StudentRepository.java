@@ -19,11 +19,13 @@ public interface StudentRepository extends CrudRepository<Student,Long> {
 	
 	@Query("from Student where student_agentur=:Student_agentur")  
 	public Iterable<Student> findStudentByAgenturID(@Param("Student_agentur") long u);
-	
+
 	//@Transactional
 	//@Modifying
 	//@Query("UPDATE Student SET student_agentur=null where student_agentur=:Student_agentur")
 	//public void SetStudentAgenturToNull(@Param("Student_agentur") long u);
+	
+	//Sort sort = Sort.by("salary").descending().and(Sort.by("firstName")).and(Sort.by("age").descending()).and(Sort.by("lastName").ascending());
 	
 	//@Query("from Woerterbuch where username=:Username")  
 	//List<Woerterbuch> findAllByName(@Param("Username") String u);

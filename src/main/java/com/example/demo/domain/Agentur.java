@@ -106,7 +106,6 @@ public class Agentur {
 		
 	}
 	
-	
 	public Long getAgenturIndex() {
 		return agenturIndex;
 	}
@@ -151,24 +150,12 @@ public class Agentur {
 		return students;
 	}
 
-	public void setStudents(List<Student> students) {
-		this.students = students;
-	}
-
 	public List<Lektion> getLektions() {
 		return lektions;
 	}
 
-	public void setLektions(List<Lektion> lektions) {
-		this.lektions = lektions;
-	}
-
 	public List<Rechnung> getRechnungs() {
 		return rechnungs;
-	}
-
-	public void setRechnungs(List<Rechnung> rechnungs) {
-		this.rechnungs = rechnungs;
 	}
 
 	public static Agentur fromId(Long agenturIndex) {

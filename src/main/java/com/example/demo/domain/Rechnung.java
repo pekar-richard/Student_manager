@@ -130,16 +130,6 @@ public class Rechnung {
 		this.student = student;
 	}
 	
-	public static Rechnung fromId(Long rechnung_index) {
-		
-		if (rechnung_index == null) {
-			return null;
-		}
-		Rechnung rechnung = new Rechnung();
-		rechnung.rechnIndex = rechnung_index;
-	    return rechnung;
-	}
-	
 	
 	public Long getRechnIndex() {
 		return rechnIndex;
@@ -235,6 +225,16 @@ public class Rechnung {
 
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+	
+	public static Rechnung fromId(Long rechnung_index) {
+		
+		if (rechnung_index == null) {
+			return null;
+		}
+		Rechnung rechnung = new Rechnung();
+		rechnung.rechnIndex = rechnung_index;
+	    return rechnung;
 	}
 
 	@JsonProperty("studentIndex")

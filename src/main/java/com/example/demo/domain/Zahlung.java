@@ -1,6 +1,8 @@
 package com.example.demo.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -31,14 +34,13 @@ public class Zahlung {
 	@Column(name="zahlung_index")
 	private Long zahlungIndex;
 	
-	@JsonFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 	@Column(name="zahlung_datum")
 	private Date zahlungDatum;
 	
 	@Column(name="zahlung_betrag")
 	private double zahlungBetrag;
 	
-	@NotBlank(message="Bitte tragen Sie Zahlung_Konto ein.")
 	@Column(name="zahlung_konto")
 	private String zahlungKonto;
 	
@@ -51,6 +53,9 @@ public class Zahlung {
 	@Column(name="zahlung_komm")
 	private String zahlungKomm;
 	
+	@Column(name="zahlung_abrechnung")
+	private int lektionAbrechnung;
+	
 	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 	@Column(name="created_at", updatable= false)
 	private Date createdAt;
@@ -62,15 +67,46 @@ public class Zahlung {
 	//ManytoOne with Student
 	@ManyToOne(fetch = FetchType.LAZY,cascade= {CascadeType.PERSIST, CascadeType.MERGE,
 			 CascadeType.DETACH, CascadeType.REFRESH})
-	@JoinColumn(name="zahlung_student", nullable = false)
+	@JoinColumn(name="zahlung_student", nullable = true)
 	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "studentIndex")
     @JsonIdentityReference(alwaysAsId = true)
     @JsonProperty("studentIndex")
 	private Student student;
 	
+	//@OneToOne with Lektion
+	@OneToOne(fetch = FetchType.LAZY,cascade= {CascadeType.PERSIST, CascadeType.MERGE,
+			 CascadeType.DETACH, CascadeType.REFRESH})
+	@JoinColumn(name="zahlung_lektion", nullable = true)
+	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "lektionIndex")
+    @JsonIdentityReference(alwaysAsId = true)
+    @JsonProperty("lektionIndex")
+	private Lektion lektion;
+
 	public void removeStudent() {	
 		
 		this.student=null;
+	}
+	
+	
+	public void removeLektion() {	
+		
+		this.lektion=null;
+	}
+	
+	public int getLektionAbrechnung() {
+		return lektionAbrechnung;
+	}
+
+	public void setLektionAbrechnung(int lektionAbrechnung) {
+		this.lektionAbrechnung = lektionAbrechnung;
+	}
+
+	public Lektion getLektion() {
+		return lektion;
+	}
+
+	public void setLektion(Lektion lektion) {
+		this.lektion = lektion;
 	}
 	
 	public Zahlung() {
@@ -87,14 +123,14 @@ public class Zahlung {
 		this.updatedAt = new Date();	
 	}
 	
+	public void setStudent(Student student) {	
+		
+		this.student = student;
+	}
+	
 	public Student getStudent() {
 		return student;
-	}
-
-	public void setStudent(Student student) {
-		this.student = student;
 	}	
-	
 		
 	public Long getZahlungIndex() {
 		return zahlungIndex;
@@ -178,8 +214,14 @@ public class Zahlung {
 	    return zahlung;
 	}
 	
+	
 	@JsonProperty("studentIndex")
     public void setStudentById(Long studentIndex) {
         student = Student.fromId(studentIndex);
+    }
+	
+	@JsonProperty("lektionIndex")
+    public void setLektionById(Long lektionIndex) {
+        lektion = Lektion.fromId(lektionIndex);
     }
 }
