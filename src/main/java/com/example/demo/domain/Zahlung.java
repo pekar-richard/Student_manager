@@ -34,7 +34,7 @@ public class Zahlung {
 	@Column(name="zahlung_index")
 	private Long zahlungIndex;
 	
-	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+	@JsonFormat(pattern="yyyy-MM-dd")
 	@Column(name="zahlung_datum")
 	private Date zahlungDatum;
 	
@@ -54,7 +54,7 @@ public class Zahlung {
 	private String zahlungKomm;
 	
 	@Column(name="zahlung_abrechnung")
-	private int lektionAbrechnung;
+	private int zahlungAbrechnung;
 	
 	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 	@Column(name="created_at", updatable= false)
@@ -65,7 +65,7 @@ public class Zahlung {
 	private Date updatedAt;
 	
 	//ManytoOne with Student
-	@ManyToOne(fetch = FetchType.LAZY,cascade= {CascadeType.PERSIST, CascadeType.MERGE,
+	@ManyToOne(fetch = FetchType.LAZY,cascade= {CascadeType.PERSIST,
 			 CascadeType.DETACH, CascadeType.REFRESH})
 	@JoinColumn(name="zahlung_student", nullable = true)
 	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "studentIndex")
@@ -74,7 +74,7 @@ public class Zahlung {
 	private Student student;
 	
 	//@OneToOne with Lektion
-	@OneToOne(fetch = FetchType.LAZY,cascade= {CascadeType.PERSIST, CascadeType.MERGE,
+	@OneToOne(fetch = FetchType.LAZY,cascade= {CascadeType.PERSIST,
 			 CascadeType.DETACH, CascadeType.REFRESH})
 	@JoinColumn(name="zahlung_lektion", nullable = true)
 	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "lektionIndex")
@@ -93,13 +93,16 @@ public class Zahlung {
 		this.lektion=null;
 	}
 	
-	public int getLektionAbrechnung() {
-		return lektionAbrechnung;
+
+	public int getZahlungAbrechnung() {
+		return zahlungAbrechnung;
 	}
 
-	public void setLektionAbrechnung(int lektionAbrechnung) {
-		this.lektionAbrechnung = lektionAbrechnung;
+
+	public void setZahlungAbrechnung(int zahlungAbrechnung) {
+		this.zahlungAbrechnung = zahlungAbrechnung;
 	}
+
 
 	public Lektion getLektion() {
 		return lektion;

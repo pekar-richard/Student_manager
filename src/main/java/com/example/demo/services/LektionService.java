@@ -65,12 +65,9 @@ public Lektion saveOrUpdateLektion(Lektion lektion) {
 
 		boolean isInsert = lektion.getLektionIndex() == null;
 		boolean isUpdate = !isInsert;
-		
-
 			
 		Agentur theAgentur = lektion.getAgentur();
 		Student theStudent = lektion.getStudent();
-
 		
 		Agentur theAgenturFromDb = null;
 		Student theStudentFromDb = null;
@@ -138,8 +135,8 @@ public Lektion saveOrUpdateLektion(Lektion lektion) {
 				thezahlung.setZahlungKonto(" ");
 				thezahlung.setZahlungSteuer(0);
 				thezahlung.setZahlungRgnr(0);
-				thezahlung.setZahlungKomm(null);
-				thezahlung.setLektionAbrechnung(0);
+				thezahlung.setZahlungKomm("lektion-abrechnung");
+				thezahlung.setZahlungAbrechnung(0);
 				thezahlung.setCreatedAt(null);
 				thezahlung.setUpdatedAt(null);
 				thezahlung.setStudent(theStudentFromDb);

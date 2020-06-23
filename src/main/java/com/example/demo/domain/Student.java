@@ -79,7 +79,6 @@ public class Student {
 	private int studentAbrechnung;
 	
 	@Column(name="student_kredit")
-	@Digits(integer=3, fraction=2)
 	private double studentKredit;
 
 	@Column(name="student_aktiv")
