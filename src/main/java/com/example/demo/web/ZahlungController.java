@@ -36,6 +36,15 @@ public class ZahlungController {
 	
 	@GetMapping("/allzahlungs")
 	public Iterable<Zahlung> getAllZahlungs(){return zahlungService.findAllZahlungs();}
+	
+	@GetMapping("/{student_id}/{agentur_id}")
+	public ResponseEntity<?> findZahlungByStudentAndAgentur(@PathVariable long student_id, @PathVariable long agentur_id)
+	{
+		
+		List<Zahlung> theZahlung = zahlungService.findZahlungByStudentAndAgentur(student_id,agentur_id);
+		
+		return new ResponseEntity<List<Zahlung>>(theZahlung, HttpStatus.OK);
+	}
 
 	@GetMapping("/{zahlung_id}")
 	public ResponseEntity<?> findZahlungByID(@PathVariable long zahlung_id){			

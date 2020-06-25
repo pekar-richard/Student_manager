@@ -2,6 +2,7 @@ package com.example.demo.repositories;
 
 
 import org.springframework.data.jpa.repository.Query;
+
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -19,6 +20,7 @@ public interface StudentRepository extends CrudRepository<Student,Long> {
 	
 	@Query("from Student where student_agentur=:Student_agentur")  
 	public Iterable<Student> findStudentByAgenturID(@Param("Student_agentur") long u);
+	
 
 	//@Transactional
 	//@Modifying

@@ -13,6 +13,7 @@ import com.example.demo.domain.Zahlung;
 import com.example.demo.exceptions.LektionNotFoundException;
 import com.example.demo.exceptions.StudentNotFoundException;
 import com.example.demo.exceptions.ZahlungNotFoundException;
+import com.example.demo.repositories.AgenturRepository;
 import com.example.demo.repositories.StudentRepository;
 import com.example.demo.repositories.ZahlungRepository;
 
@@ -25,11 +26,19 @@ public class ZahlungService {
 	@Autowired
 	private StudentRepository studentRepository;
 	
+	@Autowired
+	private AgenturRepository agenturRepository;
+	
 	
 	public Iterable<Zahlung> findAllZahlungs(){
 		
 		return zahlungRepository.findAll();		
 		
+	}
+	
+	public List<Zahlung> findZahlungByStudentAndAgentur(long student_index, long agentue_index){
+		
+		return zahlungRepository.findZahlungByStudentAndAgentur(student_index, agentue_index);		
 	}
 	
 	public Zahlung findZahlungByID(long zahlung_id) {
@@ -52,8 +61,10 @@ public class ZahlungService {
 		
 		Lektion theLektion = zahlung.getLektion();
 		Student theStudent = zahlung.getStudent();
+		Agentur theAgentur = zahlung.getAgentur();
 		
 		Lektion theLektionFromDb = null;
+		Agentur theAgenturFromDb = null;
 		Student theStudentFromDb = null;
 		List<Zahlung> thezalungsFromDb = null;
 		
@@ -73,6 +84,14 @@ public class ZahlungService {
 		if (theStudentFromDb != null) {
 
 			zahlung.setStudent(theStudentFromDb);
+		}
+		
+		if (theAgentur != null) {
+			theAgenturFromDb = agenturRepository.findAgenturByID(theAgentur.getAgenturIndex());
+		}
+
+		if (theAgenturFromDb != null) {
+			zahlung.setAgentur(theAgenturFromDb);
 		}
 		
 		if (isUpdate) {
@@ -149,6 +168,7 @@ public class ZahlungService {
 	
 	theZahlung.getStudent().setStudentKredit(zahlungBetragSum);
 	theZahlung.removeStudent();
+	theZahlung.removeAgentur();
 	zahlungRepository.delete(theZahlung);
 
 }

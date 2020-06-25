@@ -1,5 +1,7 @@
 package com.example.demo.web;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +30,22 @@ public class StudentController {
 	
 	@Autowired
 	private StudentService studentService;
-	
+
 	@Autowired
 	private MapValidationErrorService mapValidationErrorService;
 	
 	@GetMapping("/allstudents")
 	public Iterable<Student> getAllStudents(){return studentService.findAllStudents(Sort.by("studentAktiv").ascending());}
+	
+	@GetMapping("/agentur/{student_id}")
+	public ResponseEntity<?> findAgenturByStudentID( @PathVariable long student_id)
+	{
+		
+		Student thestudent= studentService.findStudentByID(student_id);
+			
+		return new ResponseEntity <String> (thestudent.getAgentur().getAgenturKurzname(), HttpStatus.OK);
+	
+	}
 	
 	
 	@GetMapping("/{student_id}")

@@ -1,5 +1,7 @@
 package com.example.demo.repositories;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.example.demo.domain.Agentur;
 import com.example.demo.domain.Student;
+import com.example.demo.domain.Zahlung;
 
 @Repository
 public interface AgenturRepository extends CrudRepository<Agentur,Long>{
@@ -16,5 +19,6 @@ public interface AgenturRepository extends CrudRepository<Agentur,Long>{
 	
 	@Query("from Agentur where agentur_index=:Agentur_index")  
 	public Agentur findAgenturByID(@Param("Agentur_index") long u);
+	
 	
 }

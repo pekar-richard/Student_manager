@@ -19,6 +19,7 @@ import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Entity
 @Table(name="agentur")
@@ -59,6 +60,11 @@ public class Agentur {
 	@JsonIgnore
 	private List<Rechnung> rechnungs;
 	
+	//OneToMany with Rechnung
+	@OneToMany(fetch = FetchType.LAZY, mappedBy="agentur",  cascade= {CascadeType.PERSIST, CascadeType.MERGE,CascadeType.DETACH, CascadeType.REFRESH})
+	@JsonIgnore
+	private List<Zahlung> zahlungs;
+	
 	public void addRechnung(Rechnung tempRechnung) {
 		
 		if (rechnungs == null) {
@@ -68,6 +74,17 @@ public class Agentur {
 		rechnungs.add(tempRechnung);
 		
 		tempRechnung.setAgentur(this);
+	}
+	
+	public void addZahlung(Zahlung tempZahlung) {
+		
+		if (zahlungs == null) {
+			zahlungs = new ArrayList<>();
+		}
+		
+		zahlungs.add(tempZahlung);
+		
+		tempZahlung.setAgentur(this);
 	}
 
 	public void addLektion(Lektion tempLektion) {
@@ -91,6 +108,7 @@ public class Agentur {
 		
 		tempStudent.setAgentur(this);
 	}
+	
 	
 	@PrePersist
 	protected void onCreate() {
@@ -156,6 +174,10 @@ public class Agentur {
 
 	public List<Rechnung> getRechnungs() {
 		return rechnungs;
+	}
+	
+	public List<Zahlung> getZahlungs() {
+		return zahlungs;
 	}
 
 	public static Agentur fromId(Long agenturIndex) {

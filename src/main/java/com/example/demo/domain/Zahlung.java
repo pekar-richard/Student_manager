@@ -81,10 +81,25 @@ public class Zahlung {
     @JsonIdentityReference(alwaysAsId = true)
     @JsonProperty("lektionIndex")
 	private Lektion lektion;
+	
+	//ManytoOne with Agentur
+	@ManyToOne(fetch = FetchType.LAZY,cascade= {CascadeType.PERSIST,
+			 CascadeType.DETACH, CascadeType.REFRESH})
+	@JoinColumn(name="zahlung_agentur", nullable = true)
+	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "agenturIndex")
+    @JsonIdentityReference(alwaysAsId = true)
+    @JsonProperty("agenturIndex")
+	private Agentur agentur;
+	
 
 	public void removeStudent() {	
 		
 		this.student=null;
+	}
+	
+	public void removeAgentur() {	
+		
+		this.agentur=null;
 	}
 	
 	
@@ -92,7 +107,14 @@ public class Zahlung {
 		
 		this.lektion=null;
 	}
-	
+
+	public Agentur getAgentur() {
+		return agentur;
+	}
+
+	public void setAgentur(Agentur agentur) {
+		this.agentur = agentur;
+	}
 
 	public int getZahlungAbrechnung() {
 		return zahlungAbrechnung;
@@ -226,5 +248,10 @@ public class Zahlung {
 	@JsonProperty("lektionIndex")
     public void setLektionById(Long lektionIndex) {
         lektion = Lektion.fromId(lektionIndex);
+    }
+	
+	@JsonProperty("agenturIndex")
+    public void seAgenturById(Long agenturIndex) {
+        agentur = Agentur.fromId(agenturIndex);
     }
 }

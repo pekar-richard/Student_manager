@@ -140,6 +140,7 @@ public Lektion saveOrUpdateLektion(Lektion lektion) {
 				thezahlung.setCreatedAt(null);
 				thezahlung.setUpdatedAt(null);
 				thezahlung.setStudent(theStudentFromDb);
+				thezahlung.setAgentur(theAgenturFromDb);
 				thezahlung.setLektion(lektion);
 				zahlungRepository.save(thezahlung);
 				
@@ -192,9 +193,9 @@ public Lektion saveOrUpdateLektion(Lektion lektion) {
 	} catch (LektionNotFoundException e) {
 		throw e;
 	} catch (Exception e) {
-		throw e;// new LektionNotFoundException("Der Student ID: '"+
-				// lektion.getStudent().getStudentIndex() + "' oder Die Agentur ID: '"+
-				// lektion.getAgentur().getAgenturIndex() + "' is nicht vorhanden.");
+		throw new LektionNotFoundException("Der Student ID: '"+
+				lektion.getStudent().getStudentIndex() + "' oder Die Agentur ID: '"+
+				lektion.getAgentur().getAgenturIndex() + "' is nicht vorhanden.");
 	}
 
 }
@@ -226,6 +227,7 @@ public Lektion saveOrUpdateLektion(Lektion lektion) {
 
 	theLektion.getZahlung().removeLektion();
 	theLektion.getZahlung().removeStudent();
+	theLektion.getZahlung().removeAgentur();
 	zahlungRepository.delete(theLektion.getZahlung());
 	lektionRepository.delete(theLektion);
 }
