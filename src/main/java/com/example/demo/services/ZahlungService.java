@@ -137,7 +137,7 @@ public class ZahlungService {
 	}catch (ZahlungNotFoundException e){			
 		throw e;
 		}catch (Exception e){			
-		throw  e;//ZahlungNotFoundException("Die Zahlung ID: '"+ zahlung.getZahlungIndex() + "' oder Der Student ID: '"+ zahlung.getStudent().getStudentIndex().shortValue() + "' ist nicht vorhanden.");
+		throw  new ZahlungNotFoundException("Die Zahlung ID: '"+ zahlung.getZahlungIndex() + "' oder Der Student ID: '"+ zahlung.getStudent().getStudentIndex().shortValue() + "' ist nicht vorhanden.");
 	}
 
 	}

@@ -31,7 +31,7 @@ public class RechnungController {
 	@Autowired
 	private MapValidationErrorService mapValidationErrorService;
 	
-	@GetMapping("/allarechnungs")
+	@GetMapping("/allrechnungs")
 	public Iterable<Rechnung> getAllRechnungs(){return rechnungService.findAllRechnungs();}
 
 	@GetMapping("/{rechnung_id}")
@@ -45,10 +45,10 @@ public class RechnungController {
 	@PostMapping("/")
 	public ResponseEntity<?> createNewRechnung(@Valid @RequestBody Rechnung rechnung, BindingResult result ){			
 
-	ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
-	if(errorMap!=null) return errorMap;
+		ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
+		if(errorMap!=null) return errorMap;
 	
-	Rechnung theRechnung= rechnungService.saveOrUpdateRechnung(rechnung, rechnung.getStudent().getStudentIndex(), rechnung.getAgentur().getAgenturIndex());
+		Rechnung theRechnung= rechnungService.saveOrUpdateRechnung(rechnung);
 		
 	return new ResponseEntity<Rechnung>(theRechnung, HttpStatus.CREATED);	
 	}
@@ -56,18 +56,18 @@ public class RechnungController {
 	@PutMapping("/{rechnung_id}")
 	public ResponseEntity<?> updateRechnung(@Valid @RequestBody Rechnung rechnung, BindingResult result, @PathVariable long rechnung_id ){			
 
-	ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
-	if(errorMap!=null) return errorMap;
-	
-	Rechnung theRechnung= rechnungService.saveOrUpdateRechnung(rechnung, rechnung.getStudent().getStudentIndex(), rechnung.getAgentur().getAgenturIndex());
+		ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
+		if(errorMap!=null) return errorMap;
+		
+		Rechnung theRechnung= rechnungService.saveOrUpdateRechnung(rechnung);
 		
 	return new ResponseEntity<Rechnung>(theRechnung, HttpStatus.CREATED);	
 	}
-	
-	@DeleteMapping("/{rechnung_id}")	
-	public ResponseEntity<?> deleteRechnung(@PathVariable long rechnung_id){
 		
-	rechnungService.deleteRechnungById(rechnung_id);
+		@DeleteMapping("/{rechnung_id}")	
+		public ResponseEntity<?> deleteRechnung(@PathVariable long rechnung_id){
+			
+		rechnungService.deleteRechnungById(rechnung_id);
 		
 	return new ResponseEntity<String>("Die Rechnung mit ID:'" + rechnung_id + "' war geloescht", HttpStatus.OK);
 	}

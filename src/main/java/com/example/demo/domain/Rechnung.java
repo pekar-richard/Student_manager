@@ -38,23 +38,18 @@ public class Rechnung {
 	@Column(name="rechn_name")
 	private String rechnName;
 	
-	@NotBlank(message="Bitte tragen Sie Rechn_Zusatz. ein.")
 	@Column(name="rechn_zusatz")
 	private String rechnZusatz;
 	
-	@NotBlank(message="Bitte tragen Sie Rechn_Str. ein.")
 	@Column(name="rechn_str")
 	private String rechnStr;
 	
-	@NotBlank(message="Bitte tragen Sie Rechn_PLZ ein.")
 	@Column(name="rechn_plz")
 	private String rechnPlz;
 	
-	@NotBlank(message="Bitte tragen Sie Rechn_Ort ein.")
 	@Column(name="rechn_ort")
 	private String rechnOrt;
 	
-	@NotBlank(message="Bitte tragen Sie Rechn_Land ein.")
 	@Column(name="rechn_land")
 	private String rechnLand;
 	

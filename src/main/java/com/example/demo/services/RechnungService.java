@@ -39,62 +39,45 @@ public class RechnungService {
 		return theRechnung;
 	}
 	
-	public Rechnung saveOrUpdateRechnung(Rechnung rechnung, long student_id, long agentur_id) {
+	public Rechnung saveOrUpdateRechnung(Rechnung rechnung) {
+		
 	try {	
 		
+		Student theStudent = rechnung.getStudent();
+		Agentur theAgentur = rechnung.getAgentur();
+		Agentur theAgenturFromDb = null;
+		Student theStudentFromDb = null;
 		
-		Agentur theAgentur = agenturRepository.findAgenturByID(agentur_id);
-		Student theStudent1 = studentRepository.findStudentByID(student_id);
-		
-		if(theAgentur == null && theStudent1 == null) {
+		if(theAgentur == null && theStudent == null) {
 			
-			throw new RechnungNotFoundException("Der Student ID: '"+ student_id + "' oder Die Agentur ID: '" + agentur_id + "' is nicht vorhanden.");
+			throw new RechnungNotFoundException("Der Student ID: '"+ theStudent.getStudentIndex() + "' oder Die Agentur ID: '" + theAgentur.getAgenturIndex() + "' is nicht vorhanden.");
 		}
 		
-		if(rechnung.getRechnIndex() == null) {
-		 
+		if (theStudent != null) {
+			theStudentFromDb = studentRepository.findStudentByID(theStudent.getStudentIndex());
+		}
+
+		if (theStudentFromDb != null) {
+
+			rechnung.setStudent(theStudentFromDb);
+		}
 			
-			if( theAgentur!= null) {
-				
-				theAgentur.addRechnung(rechnung);
-			}
-	
-			
-			if( theStudent1!= null) {
-				
-				theStudent1.addRechnung(rechnung);
-			}
-			
-			return rechnungRepository.save(rechnung);
-			
-		}else {
-				Rechnung theRechnung = rechnungRepository.findRechnungByID(rechnung.getRechnIndex());
-				
-				if(theRechnung == null  ) {	
-					throw new RechnungNotFoundException("Die Rechnung ID: '"+ rechnung.getRechnIndex() + "'ist nicht vorhanden.");
-			}
-			
-				Agentur theagentur = agenturRepository.findAgenturByID(agentur_id);
-				if( theagentur!= null) {
-					
-					theagentur.addRechnung(rechnung);
-				}
-				
-				Student theStudent = studentRepository.findStudentByID(student_id);
-				if( theStudent!= null) {
-					
-					theStudent1.addRechnung(rechnung);
-				}
-				
-			
-			return rechnungRepository.save(rechnung);
-				
-		}	
+		if (theAgentur != null) {
+			theAgenturFromDb = agenturRepository.findAgenturByID(theAgentur.getAgenturIndex());
+		}
+
+		if (theAgenturFromDb != null) {
+			rechnung.setAgentur(theAgenturFromDb);
+		}
+		
+		
+		return rechnungRepository.save(rechnung);
+		
 				
 		}catch (RechnungNotFoundException e){			
 			throw e;
 		}catch (Exception e){			
-			throw new RechnungNotFoundException("Der Student ID: '"+ student_id + "' oder Die Agentur ID: '" + agentur_id + "' is nicht vorhanden.");
+			throw new RechnungNotFoundException("Der Student ID: '"+ rechnung.getStudent().getStudentIndex()  + "' oder Die Agentur ID: '" + rechnung.getAgentur().getAgenturIndex() + "' is nicht vorhanden.");
 		}
 
 	}
