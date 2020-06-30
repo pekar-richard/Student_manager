@@ -9,6 +9,7 @@ import com.example.demo.domain.Agentur;
 import com.example.demo.domain.Lektion;
 import com.example.demo.domain.Rechnung;
 import com.example.demo.domain.Student;
+import com.example.demo.domain.Zahlung;
 import com.example.demo.exceptions.AgenturNotFoundException;
 import com.example.demo.repositories.AgenturRepository;
 
@@ -74,10 +75,12 @@ public class AgenturService {
 	List<Student>  agenturStudents = theAgentur.getStudents();
 	List<Lektion>  agenturLektions = theAgentur.getLektions();
 	List<Rechnung> agenturRechnungs = theAgentur.getRechnungs();
+	List<Zahlung> agenturZahlungs = theAgentur.getZahlungs();
 	
 	agenturStudents.forEach((n) ->  {n.removeAgentur();});
 	agenturLektions.forEach((n) ->  {n.removeAgentur();});
 	agenturRechnungs.forEach((n) -> {n.removeAgentur();});
+	agenturZahlungs.forEach((n) -> {n.removeAgentur();});
 
 	agenturRepository.delete(theAgentur);
 	
