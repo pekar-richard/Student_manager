@@ -29,7 +29,7 @@ public class Agentur {
 	@Column(name="agentur_index")
 	private Long agenturIndex;
 	
-	@NotBlank(message="Bitte tragen Sie Agentur_Kurzname ein.")
+	@NotBlank(message="Bitte tragen Sie einen Kurzname ein.")
 	@Column(name="agentur_kurzname")
 	private String agenturKurzname;
 	

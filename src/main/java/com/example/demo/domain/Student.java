@@ -36,11 +36,11 @@ public class Student {
 	@Column(name="student_index")
 	private Long studentIndex;
 
-	@NotBlank(message="Bitte tragen Sie Student_Nachname ein.")
+	@NotBlank(message="Bitte tragen Sie einen Nachnamen ein.")
 	@Column(name="student_nachname")
 	private String studentNachname;
 	
-	@NotBlank(message="Bitte tragen Sie Student_Vorname ein.")
+	@NotBlank(message="Bitte tragen Sie einen Vornamen ein.")
 	@Column(name="student_vorname")
 	private String studentVorname;
 	
