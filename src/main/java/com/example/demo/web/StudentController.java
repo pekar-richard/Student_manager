@@ -23,7 +23,7 @@ import com.example.demo.services.StudentService;
 
 @RestController
 @RequestMapping("/api/student")
-@CrossOrigin //Important to get acces from react app to server
+@CrossOrigin
 public class StudentController {
 	
 	@Autowired
@@ -33,7 +33,9 @@ public class StudentController {
 	private MapValidationErrorService mapValidationErrorService;
 	
 	@GetMapping("/allstudents")
-	public Iterable<Student> getAllStudents(){return studentService.findAllStudents(Sort.by("studentAktiv").ascending());}
+	public Iterable<Student> getAllStudents(){
+		return studentService.findAllStudents(Sort.by("studentAktiv").ascending());
+	}
 	
 	@GetMapping("/agentur/{student_id}")
 	public ResponseEntity<?> findAgenturByStudentID( @PathVariable long student_id)
@@ -45,7 +47,6 @@ public class StudentController {
 	
 	}
 	
-	
 	@GetMapping("/{student_id}")
 	public ResponseEntity<?> findStudentByID(@PathVariable long student_id){			
 
@@ -56,11 +57,12 @@ public class StudentController {
 	
 	@PostMapping("/")
 	public ResponseEntity<?> createNewStudent(@Valid @RequestBody Student student, BindingResult result){
-
+	
 		ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
 		if(errorMap!=null) return errorMap;
 		
 		Student thestudent= studentService.saveOrUpdateStudent(student);
+		
 			
 		return new ResponseEntity<Student>(thestudent, HttpStatus.CREATED);	
 	}

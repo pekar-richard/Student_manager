@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 
+
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 @Configuration
@@ -28,6 +29,7 @@ public class AppConfig {
 		
 		// define a bean for our security datasource
 		
+	    
 		@Bean
 		public DataSource securityDataSource() {
 			
